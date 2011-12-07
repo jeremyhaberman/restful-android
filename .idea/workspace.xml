@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AndroidLayoutPreviewToolWindow">
-    <option name="device" value="2.7in QVGA" />
+    <option name="device" value="4in WVGA (Nexus S)" />
     <option name="deviceConfiguration" value="Portrait" />
     <option name="dockMode" value="" />
     <option name="nightMode" value="notnight" />
@@ -10,15 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="849b2bab-3f76-46dd-b89e-6625e0be1677" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/ant.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/OnCredentialsVerifiedCallback.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RESTful Android.iml" afterPath="$PROJECT_DIR$/RESTful Android.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/home.xml" afterPath="$PROJECT_DIR$/res/layout/home.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/Twitter.java" afterPath="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/Twitter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/About.java" afterPath="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/About.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Login.java" afterPath="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Login.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/auth/OAuthManager.java" afterPath="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/auth/OAuthManager.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Home.java" afterPath="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Home.java" />
     </list>
     <ignored path="restful-android.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -75,7 +71,53 @@
     <favorites_list name="restful-android" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="Home.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Home.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="37" column="0" selection-start="1316" selection-end="1316" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Login.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Login.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="56" column="44" selection-start="1562" selection-end="1562" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="login.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/login.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="27" selection-start="253" selection-end="253" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Twitter.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/Twitter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="80" column="28" selection-start="2313" selection-end="2313" vertical-scroll-proportion="0.7830609">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/home.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="1" selection-start="40" selection-end="247" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -97,13 +139,15 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
+        <option value="$PROJECT_DIR$/gen/com/jeremyhaberman/restfulandroid/BuildConfig.java" />
+        <option value="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/auth/OAuthManager.java" />
+        <option value="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/About.java" />
+        <option value="$PROJECT_DIR$/res/layout/login.xml" />
+        <option value="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Login.java" />
+        <option value="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/OnCredentialsVerifiedListener.java" />
         <option value="$PROJECT_DIR$/res/layout/home.xml" />
         <option value="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Home.java" />
-        <option value="$PROJECT_DIR$/gen/com/jeremyhaberman/restfulandroid/BuildConfig.java" />
-        <option value="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Login.java" />
-        <option value="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/auth/OAuthManager.java" />
         <option value="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/Twitter.java" />
-        <option value="$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/About.java" />
       </list>
     </option>
   </component>
@@ -255,6 +299,7 @@
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="project.structure.last.edited" value="Modules" />
+    <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
@@ -273,6 +318,28 @@
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m" />
       <option name="PROGRAM_PARAMETERS" />
+      <method>
+        <option name="AntTarget" enabled="false" />
+        <option name="BuildArtifacts" enabled="false" />
+        <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
+      </method>
+    </configuration>
+    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
+      <module name="" />
+      <option name="TESTING_TYPE" value="0" />
+      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
+      <option name="PREFERRED_AVD" value="" />
+      <option name="COMMAND_LINE" value="" />
+      <option name="WIPE_USER_DATA" value="false" />
+      <option name="DISABLE_BOOT_ANIMATION" value="false" />
+      <option name="NETWORK_SPEED" value="full" />
+      <option name="NETWORK_LATENCY" value="none" />
+      <option name="CLEAR_LOGCAT" value="false" />
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
@@ -479,7 +546,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="988" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986537" sideWeight="0.8055236" order="-1" side_tool="false" content_ui="tabs" />
@@ -487,7 +554,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32911393" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -495,9 +562,9 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.23705408" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.249694" sideWeight="0.6708861" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.249694" sideWeight="0.8055236" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39930955" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19447641" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19447641" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Android Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -538,7 +605,7 @@
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="CREATE_PATCH_EXPAND_DETAILS_DEFAULT" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add IDEA project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Screwing around with doing Twitter work in background" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -552,6 +619,9 @@
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
     <MESSAGE value="Add IDEA project" />
+    <MESSAGE value="Changes from IDEA code analysis" />
+    <MESSAGE value="Move request to get auth URL to background thread" />
+    <MESSAGE value="Screwing around with doing Twitter work in background" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -561,44 +631,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/res/layout/home.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="31" selection-start="569" selection-end="569" vertical-scroll-proportion="0.2897474">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Home.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="33" selection-start="620" selection-end="620" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gen/com/jeremyhaberman/restfulandroid/BuildConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="19" selection-start="114" selection-end="114" vertical-scroll-proportion="0.09090909">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Login.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="9" selection-start="1055" selection-end="1055" vertical-scroll-proportion="0.33333334">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/auth/OAuthManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="99" column="4" selection-start="3043" selection-end="3043" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/Twitter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="10" selection-start="1186" selection-end="1186" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -627,6 +662,48 @@
     <entry file="file://$PROJECT_DIR$/res/drawable/button_login.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="2" selection-start="297" selection-end="297" vertical-scroll-proportion="0.18181819">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Login.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="56" column="44" selection-start="1562" selection-end="1562" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/login.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="27" selection-start="253" selection-end="253" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/home.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="1" selection-start="40" selection-end="247" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/activity/Home.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="0" selection-start="1316" selection-end="1316" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/OnCredentialsVerifiedCallback.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="30" selection-start="70" selection-end="99" vertical-scroll-proportion="0.11144131">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/jeremyhaberman/restfulandroid/Twitter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="80" column="28" selection-start="2313" selection-end="2313" vertical-scroll-proportion="0.7830609">
           <folding />
         </state>
       </provider>

@@ -6,52 +6,78 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import com.jeremyhaberman.restfulandroid.OnCredentialsVerifiedCallback;
 import com.jeremyhaberman.restfulandroid.R;
 import com.jeremyhaberman.restfulandroid.Twitter;
 import com.jeremyhaberman.restfulandroid.auth.OAuthManager;
 
 public class Home extends Activity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    private ProgressBar mProgressIndicator;
+    private TextView mWelcome;
 
-		setContentView(R.layout.home);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		Twitter twitter = new Twitter(OAuthManager.getInstance());
+        setContentView(R.layout.home);
 
-		String name = twitter.verifyCredentials();
 
-		TextView welcome = (TextView) findViewById(R.id.welcome);
-		welcome.setText("You are logged in as\n" + name);
-	}
+        mProgressIndicator = (ProgressBar) findViewById(R.id.progress_indicator);
+        mWelcome = (TextView) findViewById(R.id.welcome);
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.menu, menu);
-		return true;
-	}
+        Twitter twitter = new Twitter(OAuthManager.getInstance());
+        twitter.verifyCredentials(new OnCredentialsVerifiedCallback() {
+            @Override
+            public void onCredentialsVerified(String name, Exception e) {
+                mProgressIndicator.setVisibility(View.INVISIBLE);
+                mWelcome.setVisibility(View.VISIBLE);
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		super.onOptionsItemSelected(item);
-		switch (item.getItemId()) {
-		case R.id.logout:
-			OAuthManager.getInstance().logout();
-			Intent login = new Intent(this, Login.class);
-			startActivity(login);
-			finish();
-			break;
-		case R.id.about:
-			Intent about = new Intent(this, About.class);
-			startActivity(about);
-			break;
-		}
-		return false;
-	}
+                if (name != null && e == null) {
+                    showWelcome(name);
+                } else {
+                    showError();
+                }
+            }
+        });
 
+
+    }
+
+    private void showError() {
+        mWelcome.setText("An error has occurred.");
+    }
+
+    private void showWelcome(String name) {
+        mWelcome.setText("You are logged in as\n" + name);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.logout:
+                OAuthManager.getInstance().logout();
+                Intent login = new Intent(this, Login.class);
+                startActivity(login);
+                finish();
+                break;
+            case R.id.about:
+                Intent about = new Intent(this, About.class);
+                startActivity(about);
+                break;
+        }
+        return false;
+    }
 }

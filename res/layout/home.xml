@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="@color/background">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background">
 
     <TextView
         android:id="@+id/welcome"
@@ -11,6 +12,13 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:textColor="@android:color/white"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:visibility="invisible"/>
+
+    <ProgressBar
+        android:id="@+id/progress_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>
