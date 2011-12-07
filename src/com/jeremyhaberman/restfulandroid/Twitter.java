@@ -11,12 +11,12 @@ import com.jeremyhaberman.restfulandroid.auth.RequestSigner;
 /**
  * Twitter API
  * 
- * @author jeremy
+ * @author jeremyhaberman
  * 
  */
 public class Twitter {
 
-	private RequestSigner mRequestSigner;
+	private final RequestSigner mRequestSigner;
 
 	/**
 	 * Construct the Twitter API.
@@ -46,7 +46,7 @@ public class Twitter {
 		try {
 			JSONObject json = new JSONObject(response.getBody());
 			return json.getString("name");
-		} catch (JSONException e) {
+		} catch (JSONException ignored) {
 		}
 
 		return name;

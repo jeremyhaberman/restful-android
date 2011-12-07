@@ -43,10 +43,11 @@ public class About extends Activity {
 	/**
 	 * This method reads simple text file
 	 * 
-	 * @param inputStream
+	 * @param context an Android Context
+     * @param filename the filename to read
 	 * @return data from file
 	 */
-	public static String readTextFile(Context context, String filename) {
+	private static String readTextFile(Context context, String filename) {
 
 		InputStream inputStream = getInputStream(context, filename);
 
@@ -59,7 +60,7 @@ public class About extends Activity {
 			}
 			outputStream.close();
 			inputStream.close();
-		} catch (IOException e) {
+		} catch (IOException ignored) {
 		}
 		return outputStream.toString();
 	}

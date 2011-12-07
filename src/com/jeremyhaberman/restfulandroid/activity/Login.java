@@ -43,7 +43,7 @@ public class Login extends Activity {
 	/**
 	 * Authorizes app for use with Twitter.
 	 */
-	protected void authorize() {
+    void authorize() {
 		Uri authUrl = mOAuthManager.getAuthorizationUrl();
 		Intent openAuthUrl = new Intent(Intent.ACTION_VIEW, authUrl);
 		startActivity(openAuthUrl);

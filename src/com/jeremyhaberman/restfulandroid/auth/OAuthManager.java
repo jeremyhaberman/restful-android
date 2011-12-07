@@ -36,10 +36,10 @@ public class OAuthManager implements RequestSigner {
 	private static final String PREF_NAME_TWITTER_ACCESS_TOKEN = "twitterAccessToken";
 	private static final String PREF_NAME_TWITTER_ACCESS_TOKEN_SECRET = "twitterAccessTokenSecret";
 
-	private OAuthService mOAuthService;
+	private final OAuthService mOAuthService;
 
 	// Preferences in which to store the request and access tokens
-	private SharedPreferences prefs;
+	private final SharedPreferences prefs;
 
 	private Token mRequestToken;
 	private Token mAccessToken;
@@ -95,7 +95,7 @@ public class OAuthManager implements RequestSigner {
 		mAccessToken = getAccessToken(intent, mOAuthService, getRequestToken());
 
 		saveAccessToken(mAccessToken);
-	};
+	}
 
 	/**
 	 * Persists a request token. Pass in <code>null</code> to clear the saved
@@ -185,7 +185,7 @@ public class OAuthManager implements RequestSigner {
 	 * 
 	 * @return Twitter request token
 	 */
-	public Token getRequestToken() {
+    Token getRequestToken() {
 		if (mRequestToken == null) {
 			String requestToken = prefs.getString(
 					PREF_NAME_TWITTER_REQUEST_TOKEN, null);
@@ -203,7 +203,7 @@ public class OAuthManager implements RequestSigner {
 	 * 
 	 * @return saved access token (or null if it does not exist)
 	 */
-	public Token getAccessToken() {
+    Token getAccessToken() {
 		if (mAccessToken == null) {
 			String accessToken = prefs.getString(
 					PREF_NAME_TWITTER_ACCESS_TOKEN, null);
