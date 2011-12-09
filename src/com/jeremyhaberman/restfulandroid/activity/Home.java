@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.jeremyhaberman.restfulandroid.OnCredentialsVerifiedCallback;
+import com.jeremyhaberman.restfulandroid.OnGetProfileListener;
 import com.jeremyhaberman.restfulandroid.R;
 import com.jeremyhaberman.restfulandroid.TwitterServiceHelper;
 import com.jeremyhaberman.restfulandroid.auth.OAuthManager;
@@ -25,25 +25,23 @@ public class Home extends Activity {
 
         setContentView(R.layout.home);
 
-
         mProgressIndicator = (ProgressBar) findViewById(R.id.progress_indicator);
         mWelcome = (TextView) findViewById(R.id.welcome);
 
         TwitterServiceHelper twitter = new TwitterServiceHelper(OAuthManager.getInstance());
-        twitter.verifyCredentials(new OnCredentialsVerifiedCallback() {
+        twitter.getProfile(new OnGetProfileListener() {
             @Override
-            public void onCredentialsVerified(String name, Exception e) {
+            public void onSuccess(String name) {
                 mProgressIndicator.setVisibility(View.INVISIBLE);
                 mWelcome.setVisibility(View.VISIBLE);
+                showWelcome(name);
+            }
 
-                if (name != null && e == null) {
-                    showWelcome(name);
-                } else {
-                    showError();
-                }
+            @Override
+            public void onError(Exception e) {
+                showError();
             }
         });
-
 
     }
 

@@ -32,7 +32,7 @@ public class TwitterServiceHelper {
      *
      * @param callback callback to use when long-running request is complete
      */
-    public void verifyCredentials(final OnCredentialsVerifiedCallback callback) {
+    public void getProfile(final OnGetProfileListener callback) {
 
         OAuthRequest request = new OAuthRequest(Verb.GET,
                 "http://api.twitter.com/1/account/verify_credentials.json");
@@ -48,16 +48,14 @@ public class TwitterServiceHelper {
 
                 if (response != null) {
 
-
                     try {
                         JSONObject json = new JSONObject(response.getBody());
                         name = json.getString("name");
+                        callback.onSuccess(name);
                     } catch (JSONException e1) {
-                        e = e1;
+                        callback.onError(e1);
                     }
                 }
-
-                callback.onCredentialsVerified(name, e);
             }
         });
         twitterTask.execute(request);
