@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.jeremyhaberman.restfulandroid.OnCredentialsVerifiedCallback;
 import com.jeremyhaberman.restfulandroid.R;
-import com.jeremyhaberman.restfulandroid.Twitter;
+import com.jeremyhaberman.restfulandroid.TwitterServiceHelper;
 import com.jeremyhaberman.restfulandroid.auth.OAuthManager;
 
 public class Home extends Activity {
@@ -29,7 +29,7 @@ public class Home extends Activity {
         mProgressIndicator = (ProgressBar) findViewById(R.id.progress_indicator);
         mWelcome = (TextView) findViewById(R.id.welcome);
 
-        Twitter twitter = new Twitter(OAuthManager.getInstance());
+        TwitterServiceHelper twitter = new TwitterServiceHelper(OAuthManager.getInstance());
         twitter.verifyCredentials(new OnCredentialsVerifiedCallback() {
             @Override
             public void onCredentialsVerified(String name, Exception e) {

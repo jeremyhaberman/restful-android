@@ -13,7 +13,7 @@ import org.scribe.model.Verb;
  *
  * @author jeremyhaberman
  */
-public class Twitter {
+public class TwitterServiceHelper {
 
     private final RequestSigner mRequestSigner;
 
@@ -23,7 +23,7 @@ public class Twitter {
      * @param signer the {@link RequestSigner} to use to sign requests that require
      *               authentication
      */
-    public Twitter(RequestSigner signer) {
+    public TwitterServiceHelper(RequestSigner signer) {
         mRequestSigner = signer;
     }
 
