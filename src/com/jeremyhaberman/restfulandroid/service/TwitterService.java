@@ -1,5 +1,6 @@
 package com.jeremyhaberman.restfulandroid.service;
 
+<<<<<<< HEAD
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
