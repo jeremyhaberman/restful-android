@@ -1,5 +1,8 @@
 package com.jeremyhaberman.restfulandroid;
 
+import com.jeremyhaberman.restfulandroid.auth.OAuthManager;
+import com.jeremyhaberman.restfulandroid.auth.RequestSigner;
+
 import android.app.Application;
 import android.content.Context;
 
@@ -22,6 +25,10 @@ public class RestfulAndroid extends Application {
 	 */
 	public static Context getAppContext() {
 		return mAppContext;
+	}
+	
+	public static RequestSigner getRequestSigner() {
+		return OAuthManager.getInstance();
 	}
 
 }

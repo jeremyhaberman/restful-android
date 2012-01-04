@@ -7,10 +7,6 @@ import android.os.Parcelable;
 import android.os.ResultReceiver;
 
 public class TwitterService extends IntentService {
-	
-	public interface ProcessorCallback {
-		void send(int resultCode);
-	}
 
 	public static final int GET = 0;
 	
@@ -57,7 +53,7 @@ public class TwitterService extends IntentService {
 			// Find processor
 			ProfileProcessor processor = new ProfileProcessor();
 			
-			ProcessorCallback callback = new ProcessorCallback() {
+			ProfileProcessorCallback callback = new ProfileProcessorCallback() {
 				
 				@Override
 				public void send(int resultCode) {

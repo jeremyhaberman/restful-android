@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.jeremyhaberman.restfulandroid.OnGetProfileListener;
 import com.jeremyhaberman.restfulandroid.R;
 import com.jeremyhaberman.restfulandroid.auth.OAuthManager;
@@ -26,26 +27,41 @@ public class Home extends Activity {
         setContentView(R.layout.home);
 
         mProgressIndicator = (ProgressBar) findViewById(R.id.progress_indicator);
-        mWelcome = (TextView) findViewById(R.id.welcome);
+        mWelcome = (TextView) findViewById(R.id.welcome);        
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	
+        /* 1. Register for broadcast from TwitterServiceHelper
+    	 *
+    	 * 2. See if we've already made a request.
+    	 *   a. If so, check the status.
+    	 *   b. If not, make the request (already coded below).
+    	 */
 
-        TwitterServiceHelper twitter = new TwitterServiceHelper(OAuthManager.getInstance());
-        twitter.getProfile(new OnGetProfileListener() {
-            @Override
-            public void onSuccess(String name) {
-                mProgressIndicator.setVisibility(View.INVISIBLE);
-                mWelcome.setVisibility(View.VISIBLE);
-                showWelcome(name);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                showError();
-            }
-        });
+        TwitterServiceHelper twitter = TwitterServiceHelper.getInstance(this);
+        long requestId = twitter.getProfile();
 
     }
+    
+    /* on broadcast received:
+     * 
+     *  mProgressIndicator.setVisibility(View.INVISIBLE);
+     *  mWelcome.setVisibility(View.VISIBLE);
+     *  showWelcome(name);
+     */
+        
 
-    private void showError() {
+    @Override
+	protected void onPause() {
+		super.onPause();
+		
+		// Unregister for broadcast
+	}
+
+	private void showError() {
         mWelcome.setText("An error has occurred.");
     }
 

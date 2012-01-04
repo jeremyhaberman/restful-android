@@ -18,7 +18,10 @@ class ProfileProcessor {
 		//	   Parsing the JSON response (on success) and inserting into the content provider
 		
 		// (9) Operation complete callback to Service
-		callback.processingComplete(RequestOutcome.SUCCESS);
+		
+		int responseCode = 200;
+		
+		callback.send(responseCode);
 	}
 	
 }
