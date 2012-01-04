@@ -11,8 +11,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.jeremyhaberman.restfulandroid.OnGetProfileListener;
 import com.jeremyhaberman.restfulandroid.R;
-import com.jeremyhaberman.restfulandroid.TwitterServiceHelper;
 import com.jeremyhaberman.restfulandroid.auth.OAuthManager;
+import com.jeremyhaberman.restfulandroid.service.TwitterServiceHelper;
 
 public class Home extends Activity {
 
