@@ -19,6 +19,13 @@ class ProfileProcessor {
 		
 		// (9) Operation complete callback to Service
 		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		int responseCode = 200;
 		
 		callback.send(responseCode);

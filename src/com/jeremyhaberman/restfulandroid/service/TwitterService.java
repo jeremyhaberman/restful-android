@@ -8,8 +8,6 @@ import android.os.ResultReceiver;
 
 public class TwitterService extends IntentService {
 
-	public static final int GET = 0;
-	
 	public static final int TYPE_PROFILE = 1;
 	
 	
@@ -32,8 +30,8 @@ public class TwitterService extends IntentService {
 
 	private Intent mOriginalRequestIntent;
 
-	public TwitterService(String name) {
-		super(name);
+	public TwitterService() {
+		super("TwitterService");
 	}
 
 	@Override
@@ -63,7 +61,7 @@ public class TwitterService extends IntentService {
 				}
 			};
 			
-			if (operation.equals(GET)) {
+			if (operation.equals(OPERATION_GET)) {
 				processor.getProfile(callback);
 			}
 			

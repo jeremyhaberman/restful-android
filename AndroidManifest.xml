@@ -35,6 +35,7 @@
         </activity>
         <activity android:name=".activity.Home" />
         <activity android:name=".activity.About" />
+        <service android:name=".service.TwitterService"></service>
     </application>
 
 </manifest>
