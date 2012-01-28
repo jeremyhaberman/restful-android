@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.jeremyhaberman.restfulandroid.R;
-import com.jeremyhaberman.restfulandroid.auth.OAuthManager;
+import com.jeremyhaberman.restfulandroid.rest.OAuthManager;
 
 public class Login extends Activity {
 

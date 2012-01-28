@@ -49,7 +49,7 @@ public class TwitterService extends IntentService {
 		} else {
 		
 			// Find processor
-			ProfileProcessor processor = new ProfileProcessor();
+			ProfileProcessor processor = new ProfileProcessor(getApplicationContext());
 			
 			ProfileProcessorCallback callback = new ProfileProcessorCallback() {
 				

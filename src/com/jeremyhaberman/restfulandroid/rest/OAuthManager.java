@@ -1,4 +1,4 @@
-package com.jeremyhaberman.restfulandroid.auth;
+package com.jeremyhaberman.restfulandroid.rest;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TwitterApi;

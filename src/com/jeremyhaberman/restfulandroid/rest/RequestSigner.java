@@ -1,4 +1,4 @@
-package com.jeremyhaberman.restfulandroid.auth;
+package com.jeremyhaberman.restfulandroid.rest;
 
 import org.scribe.model.OAuthRequest;
 

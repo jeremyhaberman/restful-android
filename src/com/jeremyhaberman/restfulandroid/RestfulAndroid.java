@@ -1,7 +1,7 @@
 package com.jeremyhaberman.restfulandroid;
 
-import com.jeremyhaberman.restfulandroid.auth.OAuthManager;
-import com.jeremyhaberman.restfulandroid.auth.RequestSigner;
+import com.jeremyhaberman.restfulandroid.rest.OAuthManager;
+import com.jeremyhaberman.restfulandroid.rest.RequestSigner;
 
 import android.app.Application;
 import android.content.Context;

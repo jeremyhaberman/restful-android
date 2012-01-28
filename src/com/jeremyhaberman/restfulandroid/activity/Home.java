@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,12 +14,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.jeremyhaberman.restfulandroid.OnGetProfileListener;
 import com.jeremyhaberman.restfulandroid.R;
-import com.jeremyhaberman.restfulandroid.auth.OAuthManager;
+import com.jeremyhaberman.restfulandroid.provider.Constants;
+import com.jeremyhaberman.restfulandroid.rest.OAuthManager;
 import com.jeremyhaberman.restfulandroid.service.TwitterServiceHelper;
+import com.jeremyhaberman.util.Logger;
 
 public class Home extends Activity {
+
+	private static final String TAG = Home.class.getSimpleName();
 
 	private ProgressBar mProgressIndicator;
 	private TextView mWelcome;
@@ -33,32 +37,43 @@ public class Home extends Activity {
 
 		mProgressIndicator = (ProgressBar) findViewById(R.id.progress_indicator);
 		mProgressIndicator.setVisibility(View.INVISIBLE);
-		mWelcome = (TextView) findViewById(R.id.welcome);        
+		mWelcome = (TextView) findViewById(R.id.welcome);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 
-		/* 1. Register for broadcast from TwitterServiceHelper
-		 *
-		 * 2. See if we've already made a request.
-		 *   a. If so, check the status.
-		 *   b. If not, make the request (already coded below).
+		String name = getNameFromContentProvider();
+		if (name != null) {
+			showWelcome(name);
+		}
+
+		/*
+		 * 1. Register for broadcast from TwitterServiceHelper
+		 * 
+		 * 2. See if we've already made a request. a. If so, check the status.
+		 * b. If not, make the request (already coded below).
 		 */
 
-		IntentFilter filter = new IntentFilter(TwitterServiceHelper.ACTION_REQUEST_RESULT);
+		IntentFilter filter = new IntentFilter(
+				TwitterServiceHelper.ACTION_REQUEST_RESULT);
 		requestReceiver = new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				long rcvdId = intent.getLongExtra(TwitterServiceHelper.EXTRA_REQUEST_ID, 0);
-				if(rcvdId == requestId){
-					int result = intent.getIntExtra(TwitterServiceHelper.EXTRA_RESULT_CODE, 0);
-					if(result == 200){
+				long rcvdId = intent.getLongExtra(
+						TwitterServiceHelper.EXTRA_REQUEST_ID, 0);
+				if (rcvdId == requestId) {
+					int result = intent.getIntExtra(
+							TwitterServiceHelper.EXTRA_RESULT_CODE, 0);
+					if (result == 200) {
 						mProgressIndicator.setVisibility(View.INVISIBLE);
 						mWelcome.setVisibility(View.VISIBLE);
-						showWelcome("Get Name from DB");
+
+						String name = getNameFromContentProvider();
+						showWelcome(name);
+
 					} else {
 						showError();
 					}
@@ -69,27 +84,45 @@ public class Home extends Activity {
 
 		TwitterServiceHelper twitter = TwitterServiceHelper.getInstance(this);
 
-		if(requestId == null){
-			mProgressIndicator.setVisibility(View.VISIBLE);
+		if (requestId == null) {
+			if (name == null) {
+				mProgressIndicator.setVisibility(View.VISIBLE);
+			}
 			this.registerReceiver(requestReceiver, filter);
 			requestId = twitter.getProfile();
-		} else if (twitter.isRequestPending(requestId)){
-			this.registerReceiver(requestReceiver, filter);			
+		} else if (twitter.isRequestPending(requestId)) {
+			this.registerReceiver(requestReceiver, filter);
 		} else {
-			mWelcome.setVisibility(View.VISIBLE);
-			showWelcome("Get Name from DB");
+			name = getNameFromContentProvider();
+			showWelcome(name);
 		}
 
 	}
 
+	private String getNameFromContentProvider() {
+
+		Cursor cursor = getContentResolver().query(Constants.CONTENT_URI, null,
+				null, null, null);
+
+		if (cursor.moveToFirst()) {
+			int index = cursor.getColumnIndexOrThrow(Constants.NAME);
+			return cursor.getString(index);
+		} else {
+			return null;
+		}
+	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 
 		// Unregister for broadcast
-		if(requestReceiver != null){
-			this.unregisterReceiver(requestReceiver);
+		if (requestReceiver != null) {
+			try {
+				this.unregisterReceiver(requestReceiver);
+			} catch (IllegalArgumentException e) {
+				Logger.error(TAG, e.getLocalizedMessage(), e);
+			}
 		}
 	}
 
@@ -98,6 +131,7 @@ public class Home extends Activity {
 	}
 
 	private void showWelcome(String name) {
+		mWelcome.setVisibility(View.VISIBLE);
 		mWelcome.setText("You are logged in as\n" + name);
 	}
 
