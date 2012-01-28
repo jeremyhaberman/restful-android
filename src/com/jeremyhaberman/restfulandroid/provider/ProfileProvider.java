@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.text.TextUtils;
 import com.jeremyhaberman.restfulandroid.database.ProfileData;
+import com.jeremyhaberman.util.Logger;
 
 import static android.provider.BaseColumns._ID;
 import static com.jeremyhaberman.restfulandroid.provider.Constants.AUTHORITY;
@@ -16,6 +17,8 @@ import static com.jeremyhaberman.restfulandroid.provider.Constants.TABLE_NAME;
 import static com.jeremyhaberman.restfulandroid.provider.Constants.CONTENT_URI;
 
 public class ProfileProvider extends ContentProvider {
+	
+	private static final String TAG = ProfileProvider.class.getSimpleName();
 
     private static final int PROFILES = 1;
     private static final int PROFILE_ID = 2;
@@ -31,6 +34,7 @@ public class ProfileProvider extends ContentProvider {
      */
     private static final String CONTENT_ITEM_TYPE
             = "vnd.android.cursor.item/vnd.example.profile";
+	
 
     private ProfileData profiles;
     private UriMatcher uriMatcher;
@@ -92,6 +96,9 @@ public class ProfileProvider extends ContentProvider {
 
         // Notify any watchers of the change
         Uri newUri = ContentUris.withAppendedId(CONTENT_URI, id);
+        
+        Logger.debug(TAG, "New profile URI: " + newUri.toString());
+        
         getContext().getContentResolver().notifyChange(newUri, null);
         return newUri;
     }

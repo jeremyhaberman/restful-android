@@ -35,7 +35,12 @@
         </activity>
         <activity android:name=".activity.Home" />
         <activity android:name=".activity.About" />
-        <service android:name=".service.TwitterService"></service>
+
+        <service android:name=".service.TwitterService" />
+
+        <provider
+            android:name=".provider.ProfileProvider"
+            android:authorities="com.jeremyhaberman.restfulandroid.profiles" />
     </application>
 
 </manifest>
