@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">RESTful Android</string>
+    <string name="app_log_tag">RESTfulAndroid</string>
     <string name="button_login_label">Login to Twitter</string>
 
 </resources>

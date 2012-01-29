@@ -2,6 +2,7 @@ package com.jeremyhaberman.restfulandroid;
 
 import com.jeremyhaberman.restfulandroid.rest.OAuthManager;
 import com.jeremyhaberman.restfulandroid.rest.RequestSigner;
+import com.jeremyhaberman.util.Logger;
 
 import android.app.Application;
 import android.content.Context;
@@ -15,6 +16,8 @@ public class RestfulAndroid extends Application {
 		super.onCreate();
 
 		mAppContext = getApplicationContext();
+		
+		Logger.setAppTag(getString(R.string.app_log_tag));
 	}
 
 	/**
