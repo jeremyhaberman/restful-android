@@ -1,0 +1,2 @@
+Example:
+./generate-javadoc.sh ~/dev/lib/android-sdk/platforms/android-7/android.jar:../lib/scribe-1.2.3.jar:../bin/classes/
