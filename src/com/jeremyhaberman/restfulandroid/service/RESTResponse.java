@@ -1,8 +1,8 @@
-package com.jeremyhaberman.restfulandroid.rest;
+package com.jeremyhaberman.restfulandroid.service;
 
 import org.scribe.model.Response;
 
-public class RESTResponse {
+class RESTResponse {
 
 	private Response mResponse;
 

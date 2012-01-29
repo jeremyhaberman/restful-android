@@ -1,4 +1,4 @@
-package com.jeremyhaberman.restfulandroid.rest;
+package com.jeremyhaberman.restfulandroid.service;
 
 import java.io.IOException;
 
@@ -6,11 +6,11 @@ import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Verb;
 
+import com.jeremyhaberman.restfulandroid.security.AuthorizationManager;
+
 import android.net.Uri;
 
-import com.jeremyhaberman.restfulandroid.RestfulAndroid;
-
-public class RESTMethod {
+class RESTRequest {
 
 	public static final int METHOD_GET_PROFILE = 1;
 
@@ -19,7 +19,7 @@ public class RESTMethod {
 	private OAuthRequest mRequest;
 	private Uri mUri;
 
-	public RESTMethod(int method) throws InvalidRequestMethodException {
+	public RESTRequest(int method) throws InvalidRequestMethodException {
 		switch (method) {
 		case METHOD_GET_PROFILE:
 			createGetProfileRequest();
@@ -33,7 +33,7 @@ public class RESTMethod {
 	private void createGetProfileRequest() {
 		mUri = Uri.parse(PROFILE_PATH);
 		mRequest = new OAuthRequest(Verb.GET, mUri.toString());
-		RestfulAndroid.getRequestSigner().signRequest(mRequest);
+		AuthorizationManager.getInstance().signRequest(mRequest);
 	}
 
 	public void execute(ResponseHandler handler) throws IOException {

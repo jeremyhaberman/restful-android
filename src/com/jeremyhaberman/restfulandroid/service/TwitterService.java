@@ -3,10 +3,9 @@ package com.jeremyhaberman.restfulandroid.service;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.os.ResultReceiver;
 
-public class TwitterService extends IntentService {
+class TwitterService extends IntentService {
 
 	public static final int TYPE_PROFILE = 1;
 	

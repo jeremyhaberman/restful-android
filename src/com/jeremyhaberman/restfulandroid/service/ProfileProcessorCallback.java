@@ -1,6 +1,6 @@
 package com.jeremyhaberman.restfulandroid.service;
 
-public interface ProfileProcessorCallback {
+interface ProfileProcessorCallback {
 
 	void send(int resultCode);
 

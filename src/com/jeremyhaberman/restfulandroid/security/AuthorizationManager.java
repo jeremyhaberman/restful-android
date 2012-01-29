@@ -1,4 +1,4 @@
-package com.jeremyhaberman.restfulandroid.rest;
+package com.jeremyhaberman.restfulandroid.security;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TwitterApi;
@@ -20,10 +20,10 @@ import com.jeremyhaberman.restfulandroid.RestfulAndroid;
  * @author jeremy
  * 
  */
-public class OAuthManager implements RequestSigner {
+public class AuthorizationManager implements RequestSigner {
 
 	// Singleton instance of the OAuthManager
-	private static OAuthManager mInstance;
+	private static AuthorizationManager mInstance;
 
 	// RESTful Android Twitter app settings
 	private static final String TWITTER_API_KEY = "7Ng6OZUMZASslVjUsngtow";
@@ -49,9 +49,9 @@ public class OAuthManager implements RequestSigner {
 	 * 
 	 * @return singleton instance of the OAuthManager
 	 */
-	public static OAuthManager getInstance() {
+	public static AuthorizationManager getInstance() {
 		if (mInstance == null) {
-			mInstance = new OAuthManager();
+			mInstance = new AuthorizationManager();
 		}
 		return mInstance;
 	}
@@ -60,7 +60,7 @@ public class OAuthManager implements RequestSigner {
 	 * Private constructor for the OAuthManager. Initializes the persistent
 	 * storate and OAuthService
 	 */
-	private OAuthManager() {
+	private AuthorizationManager() {
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(RestfulAndroid
 				.getAppContext());

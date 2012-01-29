@@ -1,6 +1,6 @@
-package com.jeremyhaberman.restfulandroid.rest;
+package com.jeremyhaberman.restfulandroid.service;
 
-public class InvalidRequestMethodException extends Exception {
+class InvalidRequestMethodException extends Exception {
 
 	private static final long serialVersionUID = 8348169163014928359L;
 

@@ -16,9 +16,9 @@ import android.widget.TextView;
 
 import com.jeremyhaberman.restfulandroid.R;
 import com.jeremyhaberman.restfulandroid.provider.Constants;
-import com.jeremyhaberman.restfulandroid.rest.OAuthManager;
+import com.jeremyhaberman.restfulandroid.security.AuthorizationManager;
 import com.jeremyhaberman.restfulandroid.service.TwitterServiceHelper;
-import com.jeremyhaberman.util.Logger;
+import com.jeremyhaberman.restfulandroid.util.Logger;
 
 public class Home extends Activity {
 
@@ -152,7 +152,7 @@ public class Home extends Activity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case R.id.logout:
-			OAuthManager.getInstance().logout();
+			AuthorizationManager.getInstance().logout();
 			Intent login = new Intent(this, Login.class);
 			startActivity(login);
 			finish();

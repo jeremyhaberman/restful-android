@@ -1,4 +1,4 @@
-package com.jeremyhaberman.restfulandroid.rest;
+package com.jeremyhaberman.restfulandroid.security;
 
 import org.scribe.model.OAuthRequest;
 
@@ -8,7 +8,7 @@ import org.scribe.model.OAuthRequest;
  * @author jeremy
  * 
  */
-public interface RequestSigner {
+interface RequestSigner {
 
 	/**
 	 * Signs an OAuth request

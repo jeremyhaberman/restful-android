@@ -12,11 +12,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.jeremyhaberman.restfulandroid.R;
-import com.jeremyhaberman.restfulandroid.rest.OAuthManager;
+import com.jeremyhaberman.restfulandroid.security.AuthorizationManager;
 
 public class Login extends Activity {
 
-	private OAuthManager mOAuthManager;
+	private AuthorizationManager mOAuthManager;
     
     private Button mButtonLogin;
     private ProgressBar mProgressIndicator;
@@ -27,7 +27,7 @@ public class Login extends Activity {
 
 		setContentView(R.layout.login);
 
-		mOAuthManager = OAuthManager.getInstance();
+		mOAuthManager = AuthorizationManager.getInstance();
 
         mProgressIndicator = (ProgressBar) findViewById(R.id.progress_indicator);
 

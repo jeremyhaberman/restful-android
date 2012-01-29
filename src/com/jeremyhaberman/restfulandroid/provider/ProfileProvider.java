@@ -1,5 +1,9 @@
 package com.jeremyhaberman.restfulandroid.provider;
 
+import static android.provider.BaseColumns._ID;
+import static com.jeremyhaberman.restfulandroid.provider.Constants.AUTHORITY;
+import static com.jeremyhaberman.restfulandroid.provider.Constants.CONTENT_URI;
+import static com.jeremyhaberman.restfulandroid.provider.Constants.TABLE_NAME;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -9,13 +13,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
-import com.jeremyhaberman.restfulandroid.database.ProfileData;
-import com.jeremyhaberman.util.Logger;
 
-import static android.provider.BaseColumns._ID;
-import static com.jeremyhaberman.restfulandroid.provider.Constants.AUTHORITY;
-import static com.jeremyhaberman.restfulandroid.provider.Constants.TABLE_NAME;
-import static com.jeremyhaberman.restfulandroid.provider.Constants.CONTENT_URI;
+import com.jeremyhaberman.restfulandroid.util.Logger;
 
 public class ProfileProvider extends ContentProvider {
 

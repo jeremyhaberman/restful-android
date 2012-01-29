@@ -1,18 +1,10 @@
-package com.jeremyhaberman.util;
+package com.jeremyhaberman.restfulandroid.util;
 
-import java.util.List;
 import java.util.Set;
-
-import org.apache.http.Header;
-import org.apache.http.HttpRequest;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpPost;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.util.Log;
-import android.view.MotionEvent;
 
 /**
  * Utility class for logging

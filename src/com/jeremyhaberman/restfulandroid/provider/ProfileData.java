@@ -1,4 +1,4 @@
-package com.jeremyhaberman.restfulandroid.database;
+package com.jeremyhaberman.restfulandroid.provider;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,14 +8,14 @@ import static android.provider.BaseColumns._ID;
 import static com.jeremyhaberman.restfulandroid.provider.Constants.NAME;
 import static com.jeremyhaberman.restfulandroid.provider.Constants.TABLE_NAME;
 
-public class ProfileData extends SQLiteOpenHelper {
+class ProfileData extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "profiles.db";
     private static final int DATABASE_VERSION = 1;
 
     /**
      * Create a helper object for the Profile database
      */
-    public ProfileData(Context ctx) {
+    ProfileData(Context ctx) {
         super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

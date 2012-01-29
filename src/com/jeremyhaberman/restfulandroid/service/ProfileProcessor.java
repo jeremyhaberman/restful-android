@@ -13,11 +13,7 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 import com.jeremyhaberman.restfulandroid.provider.Constants;
-import com.jeremyhaberman.restfulandroid.rest.InvalidRequestMethodException;
-import com.jeremyhaberman.restfulandroid.rest.RESTMethod;
-import com.jeremyhaberman.restfulandroid.rest.RESTResponse;
-import com.jeremyhaberman.restfulandroid.rest.ResponseHandler;
-import com.jeremyhaberman.util.Logger;
+import com.jeremyhaberman.restfulandroid.util.Logger;
 
 class ProfileProcessor {
 
@@ -43,7 +39,7 @@ class ProfileProcessor {
 		// and performs the HTTP operation.
 
 		try {
-			RESTMethod request = new RESTMethod(RESTMethod.METHOD_GET_PROFILE);
+			RESTRequest request = new RESTRequest(RESTRequest.METHOD_GET_PROFILE);
 			ResponseHandler handler = new ProfileResponseHandler(callback);
 			request.execute(handler);
 		} catch (InvalidRequestMethodException e) {
