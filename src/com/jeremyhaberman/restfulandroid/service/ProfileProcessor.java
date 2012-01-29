@@ -5,9 +5,12 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import com.jeremyhaberman.restfulandroid.provider.Constants;
 import com.jeremyhaberman.restfulandroid.rest.InvalidRequestMethodException;
@@ -82,10 +85,23 @@ class ProfileProcessor {
 			String name = getName(response.getBody());
 
 			if (name != null) {
+
 				ContentValues values = new ContentValues();
 				values.put(Constants.NAME, name);
-				mContext.getContentResolver().insert(Constants.CONTENT_URI,
-						values);
+
+				Cursor cursor = mContext.getContentResolver().query(
+						Constants.CONTENT_URI, null, null, null, null);
+				if (cursor.moveToFirst()) {
+					int id = cursor.getInt(cursor
+							.getColumnIndexOrThrow(BaseColumns._ID));
+					mContext.getContentResolver().update(
+							ContentUris.withAppendedId(Constants.CONTENT_URI,
+									id), values, null, null);
+				} else {
+					mContext.getContentResolver().insert(Constants.CONTENT_URI,
+							values);
+				}
+				cursor.close();
 			}
 
 			// (9) Operation complete callback to Service

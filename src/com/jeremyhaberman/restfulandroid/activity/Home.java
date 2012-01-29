@@ -100,16 +100,20 @@ public class Home extends Activity {
 	}
 
 	private String getNameFromContentProvider() {
+		
+		String name = null;
 
 		Cursor cursor = getContentResolver().query(Constants.CONTENT_URI, null,
 				null, null, null);
 
 		if (cursor.moveToFirst()) {
 			int index = cursor.getColumnIndexOrThrow(Constants.NAME);
-			return cursor.getString(index);
-		} else {
-			return null;
+			name = cursor.getString(index);
 		}
+		
+		cursor.close();
+		
+		return name;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.text.TextUtils;
 import com.jeremyhaberman.restfulandroid.database.ProfileData;
 import com.jeremyhaberman.util.Logger;
@@ -17,114 +18,125 @@ import static com.jeremyhaberman.restfulandroid.provider.Constants.TABLE_NAME;
 import static com.jeremyhaberman.restfulandroid.provider.Constants.CONTENT_URI;
 
 public class ProfileProvider extends ContentProvider {
-	
+
 	private static final String TAG = ProfileProvider.class.getSimpleName();
 
-    private static final int PROFILES = 1;
-    private static final int PROFILE_ID = 2;
+	private static final int PROFILES = 1;
+	private static final int PROFILE_ID = 2;
 
-    /**
-     * The MIME type of a directory of events
-     */
-    private static final String CONTENT_TYPE
-            = "vnd.android.cursor.dir/vnd.example.profile";
+	/**
+	 * The MIME type of a directory of events
+	 */
+	private static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.example.profile";
 
-    /**
-     * The MIME type of a single event
-     */
-    private static final String CONTENT_ITEM_TYPE
-            = "vnd.android.cursor.item/vnd.example.profile";
-	
+	/**
+	 * The MIME type of a single event
+	 */
+	private static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.example.profile";
 
-    private ProfileData profiles;
-    private UriMatcher uriMatcher;
+	private ProfileData profiles;
+	private UriMatcher uriMatcher;
 
+	@Override
+	public boolean onCreate() {
+		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+		uriMatcher.addURI(AUTHORITY, "profiles", PROFILES);
+		uriMatcher.addURI(AUTHORITY, "profiles/#", PROFILE_ID);
+		profiles = new ProfileData(getContext());
+		return true;
+	}
 
+	@Override
+	public Cursor query(Uri uri, String[] projection, String selection,
+			String[] selectionArgs, String orderBy) {
+		if (uriMatcher.match(uri) == PROFILE_ID) {
+			long id = Long.parseLong(uri.getPathSegments().get(1));
+			selection = appendRowId(selection, id);
+		}
 
-    @Override
-    public boolean onCreate() {
-        uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(AUTHORITY, "profiles", PROFILES);
-        uriMatcher.addURI(AUTHORITY, "profiles/#", PROFILE_ID);
-        profiles = new ProfileData(getContext());
-        return true;
-    }
+		// Get the database and run the query
+		SQLiteDatabase db = profiles.getReadableDatabase();
+		Cursor cursor = db.query(TABLE_NAME, projection, selection,
+				selectionArgs, null, null, orderBy);
 
-    @Override
-    public Cursor query(Uri uri, String[] projection,
-                        String selection, String[] selectionArgs, String orderBy) {
-        if (uriMatcher.match(uri) == PROFILE_ID) {
-            long id = Long.parseLong(uri.getPathSegments().get(1));
-            selection = appendRowId(selection, id);
-        }
+		// Tell the cursor what uri to watch, so it knows when its
+		// source data changes
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
+		return cursor;
+	}
 
-        // Get the database and run the query
-        SQLiteDatabase db = profiles.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_NAME, projection, selection,
-                selectionArgs, null, null, orderBy);
+	@Override
+	public String getType(Uri uri) {
+		switch (uriMatcher.match(uri)) {
+		case PROFILES:
+			return CONTENT_TYPE;
+		case PROFILE_ID:
+			return CONTENT_ITEM_TYPE;
+		default:
+			throw new IllegalArgumentException("Unknown URI " + uri);
+		}
+	}
 
-        // Tell the cursor what uri to watch, so it knows when its
-        // source data changes
-        cursor.setNotificationUri(getContext().getContentResolver(),
-                uri);
-        return cursor;
-    }
+	@Override
+	public Uri insert(Uri uri, ContentValues values) {
+		SQLiteDatabase db = profiles.getWritableDatabase();
 
-    @Override
-    public String getType(Uri uri) {
-        switch (uriMatcher.match(uri)) {
-            case PROFILES:
-                return CONTENT_TYPE;
-            case PROFILE_ID:
-                return CONTENT_ITEM_TYPE;
-            default:
-                throw new IllegalArgumentException("Unknown URI " + uri);
-        }
-    }
+		// Validate the requested uri
+		if (uriMatcher.match(uri) != PROFILES) {
+			throw new IllegalArgumentException("Unknown URI " + uri);
+		}
 
-    @Override
-    public Uri insert(Uri uri, ContentValues values) {
-        SQLiteDatabase db = profiles.getWritableDatabase();
+		// Insert into database
+		long id = db.insertOrThrow(TABLE_NAME, null, values);
 
-        // Validate the requested uri
-        if (uriMatcher.match(uri) != PROFILES) {
-            throw new IllegalArgumentException("Unknown URI " + uri);
-        }
+		// Notify any watchers of the change
+		Uri newUri = ContentUris.withAppendedId(CONTENT_URI, id);
 
-        // Insert into database
-        long id = db.insertOrThrow(TABLE_NAME, null, values);
+		Logger.debug(TAG, "New profile URI: " + newUri.toString());
 
-        // Notify any watchers of the change
-        Uri newUri = ContentUris.withAppendedId(CONTENT_URI, id);
-        
-        Logger.debug(TAG, "New profile URI: " + newUri.toString());
-        
-        getContext().getContentResolver().notifyChange(newUri, null);
-        return newUri;
-    }
+		getContext().getContentResolver().notifyChange(newUri, null);
+		return newUri;
+	}
 
-    @Override
-    public int delete(Uri uri, String selection,
-                      String[] selectionArgs) {
+	@Override
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
 
-        throw new UnsupportedOperationException("not implemented");
-    }
+		throw new UnsupportedOperationException("not implemented");
+	}
 
-    @Override
-    public int update(Uri uri, ContentValues values,
-                      String selection, String[] selectionArgs) {
+	@Override
+	public int update(Uri uri, ContentValues values, String selection,
+			String[] selectionArgs) {
 
-        throw new UnsupportedOperationException("not implemented");
-    }
+		SQLiteDatabase db = profiles.getWritableDatabase();
 
-    /**
-     * Append an id test to a SQL selection expression
-     */
-    private String appendRowId(String selection, long id) {
-        return _ID + "=" + id
-                + (!TextUtils.isEmpty(selection)
-                ? " AND (" + selection + ')'
-                : "");
-    }
+		// Validate the requested uri
+		if (uriMatcher.match(uri) != PROFILE_ID) {
+			throw new IllegalArgumentException("Unknown URI " + uri);
+		}
+
+		String recordId = Long.toString(ContentUris.parseId(uri));
+		int affected = db.update(TABLE_NAME, values, BaseColumns._ID
+				+ "="
+				+ recordId
+				+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')'
+						: ""), selectionArgs);
+
+		Logger.debug(TAG, "Updated profile URI: " + uri.toString());
+
+		getContext().getContentResolver().notifyChange(uri, null);
+		return affected;
+	}
+
+	/**
+	 * Append an id test to a SQL selection expression
+	 */
+	private String appendRowId(String selection, long id) {
+		return _ID
+				+ "="
+				+ id
+				+ (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')'
+						: "");
+	}
 
 }
