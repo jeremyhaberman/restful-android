@@ -24,7 +24,6 @@ public class LoginActivity extends RESTfulActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 
 		setContentResId(R.layout.login);
-		setRefreshable(false);
 
 		super.onCreate(savedInstanceState);
 
