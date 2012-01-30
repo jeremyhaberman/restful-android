@@ -1,6 +1,5 @@
 package com.jeremyhaberman.restfulandroid.activity;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,20 +19,24 @@ import com.jeremyhaberman.restfulandroid.security.AuthorizationManager;
 import com.jeremyhaberman.restfulandroid.service.TwitterServiceHelper;
 import com.jeremyhaberman.restfulandroid.util.Logger;
 
-public class Home extends Activity {
+public class HomeActivity extends RESTfulActivity {
 
-	private static final String TAG = Home.class.getSimpleName();
+	private static final String TAG = HomeActivity.class.getSimpleName();
 
 	private ProgressBar mProgressIndicator;
 	private TextView mWelcome;
 	private Long requestId;
 	private BroadcastReceiver requestReceiver;
 
+	private TwitterServiceHelper mTwitterServiceHelper;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.home);
+		setContentResId(R.layout.home);
+		setRefreshable(true);
+
+		super.onCreate(savedInstanceState);
 
 		mProgressIndicator = (ProgressBar) findViewById(R.id.progress_indicator);
 		mProgressIndicator.setVisibility(View.INVISIBLE);
@@ -71,6 +74,8 @@ public class Home extends Activity {
 						mProgressIndicator.setVisibility(View.INVISIBLE);
 						mWelcome.setVisibility(View.VISIBLE);
 
+						setRefreshing(false);
+
 						String name = getNameFromContentProvider();
 						showWelcome(name);
 
@@ -82,15 +87,16 @@ public class Home extends Activity {
 			}
 		};
 
-		TwitterServiceHelper twitter = TwitterServiceHelper.getInstance(this);
+		mTwitterServiceHelper = TwitterServiceHelper.getInstance(this);
 
 		if (requestId == null) {
 			if (name == null) {
 				mProgressIndicator.setVisibility(View.VISIBLE);
 			}
 			this.registerReceiver(requestReceiver, filter);
-			requestId = twitter.getProfile();
-		} else if (twitter.isRequestPending(requestId)) {
+			setRefreshing(true);
+			requestId = mTwitterServiceHelper.getProfile();
+		} else if (mTwitterServiceHelper.isRequestPending(requestId)) {
 			this.registerReceiver(requestReceiver, filter);
 		} else {
 			name = getNameFromContentProvider();
@@ -100,7 +106,7 @@ public class Home extends Activity {
 	}
 
 	private String getNameFromContentProvider() {
-		
+
 		String name = null;
 
 		Cursor cursor = getContentResolver().query(Constants.CONTENT_URI, null,
@@ -110,9 +116,9 @@ public class Home extends Activity {
 			int index = cursor.getColumnIndexOrThrow(Constants.NAME);
 			name = cursor.getString(index);
 		}
-		
+
 		cursor.close();
-		
+
 		return name;
 	}
 
@@ -153,15 +159,20 @@ public class Home extends Activity {
 		switch (item.getItemId()) {
 		case R.id.logout:
 			AuthorizationManager.getInstance().logout();
-			Intent login = new Intent(this, Login.class);
+			Intent login = new Intent(this, LoginActivity.class);
 			startActivity(login);
 			finish();
 			break;
 		case R.id.about:
-			Intent about = new Intent(this, About.class);
+			Intent about = new Intent(this, AboutActivity.class);
 			startActivity(about);
 			break;
 		}
 		return false;
+	}
+
+	@Override
+	protected void refresh() {
+		requestId = mTwitterServiceHelper.getProfile();
 	}
 }

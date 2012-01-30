@@ -2,6 +2,7 @@
 <resources>
 
     <color name="background">#FF303030</color>
+    <color name="title_background">#FF101010</color>
     <color name="selected">#FF2A7997</color>
 
 </resources>

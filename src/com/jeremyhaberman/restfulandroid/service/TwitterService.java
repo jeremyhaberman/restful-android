@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 
-class TwitterService extends IntentService {
+public class TwitterService extends IntentService {
 
 	public static final int TYPE_PROFILE = 1;
 	

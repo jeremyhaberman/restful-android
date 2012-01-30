@@ -20,9 +20,9 @@ import com.jeremyhaberman.restfulandroid.R;
  * @author jeremy
  * 
  */
-public class About extends Activity {
+public class AboutActivity extends Activity {
 
-	private static final String TAG = About.class.getSimpleName();
+	private static final String TAG = AboutActivity.class.getSimpleName();
 
 	/**
 	 * The file containing the text to display in the dialog

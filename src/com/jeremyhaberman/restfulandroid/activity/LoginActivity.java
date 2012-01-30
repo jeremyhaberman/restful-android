@@ -1,6 +1,5 @@
 package com.jeremyhaberman.restfulandroid.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -14,37 +13,39 @@ import android.widget.Toast;
 import com.jeremyhaberman.restfulandroid.R;
 import com.jeremyhaberman.restfulandroid.security.AuthorizationManager;
 
-public class Login extends Activity {
+public class LoginActivity extends RESTfulActivity {
 
 	private AuthorizationManager mOAuthManager;
-    
-    private Button mButtonLogin;
-    private ProgressBar mProgressIndicator;
+
+	private Button mButtonLogin;
+	private ProgressBar mProgressIndicator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.login);
+		setContentResId(R.layout.login);
+		setRefreshable(false);
+
+		super.onCreate(savedInstanceState);
 
 		mOAuthManager = AuthorizationManager.getInstance();
 
-        mProgressIndicator = (ProgressBar) findViewById(R.id.progress_indicator);
+		mProgressIndicator = (ProgressBar) findViewById(R.id.progress_indicator);
 
 		mButtonLogin = (Button) findViewById(R.id.button_login);
-        mButtonLogin.setOnClickListener(new OnClickListener() {
+		mButtonLogin.setOnClickListener(new OnClickListener() {
 
-            public void onClick(View v) {
-                mProgressIndicator.setVisibility(View.VISIBLE);
-                mButtonLogin.setVisibility(View.INVISIBLE);
-                authorize();
-            }
-        });
+			public void onClick(View v) {
+				mProgressIndicator.setVisibility(View.VISIBLE);
+				mButtonLogin.setVisibility(View.INVISIBLE);
+				authorize();
+			}
+		});
 
 	}
 
 	private void startHomeActivity() {
-		Intent startHomeActivity = new Intent(this, Home.class);
+		Intent startHomeActivity = new Intent(this, HomeActivity.class);
 		startActivity(startHomeActivity);
 		finish();
 	}
@@ -52,9 +53,9 @@ public class Login extends Activity {
 	/**
 	 * Authorizes app for use with Twitter.
 	 */
-    void authorize() {
-        AuthorizeTask authorizeTask = new AuthorizeTask();
-        authorizeTask.execute((Void []) null);
+	void authorize() {
+		AuthorizeTask authorizeTask = new AuthorizeTask();
+		authorizeTask.execute((Void[]) null);
 	}
 
 	@Override
@@ -70,7 +71,7 @@ public class Login extends Activity {
 				startHomeActivity();
 			} else {
 				Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show();
-                mButtonLogin.setVisibility(View.VISIBLE);
+				mButtonLogin.setVisibility(View.VISIBLE);
 			}
 		} else {
 			// No Intent with a callback Uri was found, so let's just see if
@@ -78,24 +79,28 @@ public class Login extends Activity {
 			if (mOAuthManager.loggedIn()) {
 				startHomeActivity();
 			} else {
-                mButtonLogin.setVisibility(View.VISIBLE);
-            }
+				mButtonLogin.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 
-    class AuthorizeTask extends AsyncTask<Void, Void, Uri> {
+	class AuthorizeTask extends AsyncTask<Void, Void, Uri> {
 
-        @Override
-        protected Uri doInBackground(Void... objects) {
-            return mOAuthManager.getAuthorizationUrl();
-        }
+		@Override
+		protected Uri doInBackground(Void... objects) {
+			return mOAuthManager.getAuthorizationUrl();
+		}
 
-        @Override
-        protected void onPostExecute(Uri uri) {
-            Intent openAuthUrl = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(openAuthUrl);
-        }
-    }
+		@Override
+		protected void onPostExecute(Uri uri) {
+			Intent openAuthUrl = new Intent(Intent.ACTION_VIEW, uri);
+			startActivity(openAuthUrl);
+		}
+	}
 
+	@Override
+	protected void refresh() {
+		// n/a
+	}
 
 }
