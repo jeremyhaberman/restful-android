@@ -16,6 +16,7 @@ public class RestfulAndroid extends Application {
 		mAppContext = getApplicationContext();
 		
 		Logger.setAppTag(getString(R.string.app_log_tag));
+		Logger.setLevel(Logger.DEBUG);
 	}
 
 	/**

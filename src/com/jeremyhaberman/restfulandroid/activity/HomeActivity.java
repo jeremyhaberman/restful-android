@@ -59,18 +59,29 @@ public class HomeActivity extends RESTfulActivity {
 		 * b. If not, make the request (already coded below).
 		 */
 
-		IntentFilter filter = new IntentFilter(
-				TwitterServiceHelper.ACTION_REQUEST_RESULT);
+		IntentFilter filter = new IntentFilter(TwitterServiceHelper.ACTION_REQUEST_RESULT);
 		requestReceiver = new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				long rcvdId = intent.getLongExtra(
-						TwitterServiceHelper.EXTRA_REQUEST_ID, 0);
-				if (rcvdId == requestId) {
-					int result = intent.getIntExtra(
-							TwitterServiceHelper.EXTRA_RESULT_CODE, 0);
-					if (result == 200) {
+
+				long resultRequestId = intent.getLongExtra(TwitterServiceHelper.EXTRA_REQUEST_ID, 0);
+
+				Logger.debug(TAG, "Received intent " + intent.getAction() + ", request ID "
+						+ resultRequestId);
+
+				if (resultRequestId == requestId) {
+					
+					Logger.debug(TAG, "Result is for our request ID");
+					
+					int resultCode = intent.getIntExtra(TwitterServiceHelper.EXTRA_RESULT_CODE, 0);
+					
+					Logger.debug(TAG, "Result code = " + resultCode);
+					
+					if (resultCode == 200) {
+						
+						Logger.debug(TAG, "Updating UI with new data");
+						
 						mProgressIndicator.setVisibility(View.INVISIBLE);
 						mWelcome.setVisibility(View.VISIBLE);
 
@@ -82,23 +93,26 @@ public class HomeActivity extends RESTfulActivity {
 					} else {
 						showError();
 					}
+				} else {
+					Logger.debug(TAG, "Result is NOT for our request ID");
 				}
 
 			}
 		};
 
 		mTwitterServiceHelper = TwitterServiceHelper.getInstance(this);
+		this.registerReceiver(requestReceiver, filter);
 
 		if (requestId == null) {
 			if (name == null) {
 				mProgressIndicator.setVisibility(View.VISIBLE);
 			}
-			this.registerReceiver(requestReceiver, filter);
 			setRefreshing(true);
 			requestId = mTwitterServiceHelper.getProfile();
 		} else if (mTwitterServiceHelper.isRequestPending(requestId)) {
-			this.registerReceiver(requestReceiver, filter);
+			setRefreshing(true);
 		} else {
+			setRefreshing(false);
 			name = getNameFromContentProvider();
 			showWelcome(name);
 		}
@@ -108,9 +122,8 @@ public class HomeActivity extends RESTfulActivity {
 	private String getNameFromContentProvider() {
 
 		String name = null;
-
-		Cursor cursor = getContentResolver().query(Constants.CONTENT_URI, null,
-				null, null, null);
+		
+		Cursor cursor = getContentResolver().query(Constants.CONTENT_URI, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
 			int index = cursor.getColumnIndexOrThrow(Constants.NAME);
