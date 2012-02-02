@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jeremyhaberman.restfulandroid"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionCode="2"
+    android:versionName="0.2" >
 
     <uses-sdk android:minSdkVersion="7" />
 
@@ -33,7 +33,7 @@
                 </data>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.TimelineActivity" />
         <activity android:name=".activity.AboutActivity" />
 
         <service android:name=".service.TwitterService" />

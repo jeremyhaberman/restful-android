@@ -6,25 +6,23 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jeremyhaberman.restfulandroid.R;
+import com.jeremyhaberman.restfulandroid.activity.base.RESTfulListActivity;
 import com.jeremyhaberman.restfulandroid.provider.Constants;
 import com.jeremyhaberman.restfulandroid.security.AuthorizationManager;
 import com.jeremyhaberman.restfulandroid.service.TwitterServiceHelper;
 import com.jeremyhaberman.restfulandroid.util.Logger;
 
-public class HomeActivity extends RESTfulActivity {
+public class TimelineActivity extends RESTfulListActivity {
 
-	private static final String TAG = HomeActivity.class.getSimpleName();
+	private static final String TAG = TimelineActivity.class.getSimpleName();
 
-	private ProgressBar mProgressIndicator;
-	private TextView mWelcome;
 	private Long requestId;
 	private BroadcastReceiver requestReceiver;
 
@@ -37,10 +35,6 @@ public class HomeActivity extends RESTfulActivity {
 		setRefreshable(true);
 
 		super.onCreate(savedInstanceState);
-
-		mProgressIndicator = (ProgressBar) findViewById(R.id.progress_indicator);
-		mProgressIndicator.setVisibility(View.INVISIBLE);
-		mWelcome = (TextView) findViewById(R.id.welcome);
 	}
 
 	@Override
@@ -49,7 +43,7 @@ public class HomeActivity extends RESTfulActivity {
 
 		String name = getNameFromContentProvider();
 		if (name != null) {
-			showWelcome(name);
+			showNameToast(name);
 		}
 
 		/*
@@ -65,33 +59,31 @@ public class HomeActivity extends RESTfulActivity {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 
-				long resultRequestId = intent.getLongExtra(TwitterServiceHelper.EXTRA_REQUEST_ID, 0);
+				long resultRequestId = intent
+						.getLongExtra(TwitterServiceHelper.EXTRA_REQUEST_ID, 0);
 
 				Logger.debug(TAG, "Received intent " + intent.getAction() + ", request ID "
 						+ resultRequestId);
 
 				if (resultRequestId == requestId) {
-					
+
 					Logger.debug(TAG, "Result is for our request ID");
-					
+
 					int resultCode = intent.getIntExtra(TwitterServiceHelper.EXTRA_RESULT_CODE, 0);
-					
+
 					Logger.debug(TAG, "Result code = " + resultCode);
-					
+
 					if (resultCode == 200) {
-						
+
 						Logger.debug(TAG, "Updating UI with new data");
-						
-						mProgressIndicator.setVisibility(View.INVISIBLE);
-						mWelcome.setVisibility(View.VISIBLE);
 
 						setRefreshing(false);
 
 						String name = getNameFromContentProvider();
-						showWelcome(name);
+						showNameToast(name);
 
 					} else {
-						showError();
+						showToast(getString(R.string.error_occurred));
 					}
 				} else {
 					Logger.debug(TAG, "Result is NOT for our request ID");
@@ -104,9 +96,6 @@ public class HomeActivity extends RESTfulActivity {
 		this.registerReceiver(requestReceiver, filter);
 
 		if (requestId == null) {
-			if (name == null) {
-				mProgressIndicator.setVisibility(View.VISIBLE);
-			}
 			setRefreshing(true);
 			requestId = mTwitterServiceHelper.getProfile();
 		} else if (mTwitterServiceHelper.isRequestPending(requestId)) {
@@ -114,7 +103,7 @@ public class HomeActivity extends RESTfulActivity {
 		} else {
 			setRefreshing(false);
 			name = getNameFromContentProvider();
-			showWelcome(name);
+			showNameToast(name);
 		}
 
 	}
@@ -122,7 +111,7 @@ public class HomeActivity extends RESTfulActivity {
 	private String getNameFromContentProvider() {
 
 		String name = null;
-		
+
 		Cursor cursor = getContentResolver().query(Constants.CONTENT_URI, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
@@ -149,13 +138,16 @@ public class HomeActivity extends RESTfulActivity {
 		}
 	}
 
-	private void showError() {
-		mWelcome.setText("An error has occurred.");
+	private void showNameToast(String name) {
+		showToast("You are logged in as\n" + name);
 	}
-
-	private void showWelcome(String name) {
-		mWelcome.setVisibility(View.VISIBLE);
-		mWelcome.setText("You are logged in as\n" + name);
+	
+	private void showToast(String message) {
+		if (!isFinishing()) {
+			Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+			toast.setGravity(Gravity.CENTER, 0, 0);
+			toast.show();
+		}
 	}
 
 	@Override

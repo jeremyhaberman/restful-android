@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.jeremyhaberman.restfulandroid.R;
+import com.jeremyhaberman.restfulandroid.activity.base.RESTfulActivity;
 import com.jeremyhaberman.restfulandroid.security.AuthorizationManager;
 
 public class LoginActivity extends RESTfulActivity {
@@ -44,7 +45,7 @@ public class LoginActivity extends RESTfulActivity {
 	}
 
 	private void startHomeActivity() {
-		Intent startHomeActivity = new Intent(this, HomeActivity.class);
+		Intent startHomeActivity = new Intent(this, TimelineActivity.class);
 		startActivity(startHomeActivity);
 		finish();
 	}
