@@ -1,5 +1,8 @@
 package com.jeremyhaberman.restfulandroid.security;
 
+import java.net.HttpURLConnection;
+
+import org.apache.http.client.methods.HttpUriRequest;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TwitterApi;
 import org.scribe.model.OAuthRequest;
@@ -235,6 +238,17 @@ public class AuthorizationManager implements RequestSigner {
 	 */
 	public void signRequest(OAuthRequest request) {
 		mOAuthService.signRequest(getAccessToken(), request);
+	}
+	
+	/**
+	 * Signs an HttpUrlConnection
+	 * 
+	 * @param conn
+	 *            the HttpURLConnectionto sign
+	 */
+	@Override
+	public void signConnection(HttpURLConnection conn) {
+		// TODO Jeremy implementing this
 	}
 
 	/**
