@@ -65,8 +65,8 @@ public class TwitterServiceHelper {
 		};
 
 		Intent intent = new Intent(this.ctx, TwitterService.class);
-		intent.putExtra(TwitterService.OPERATION_EXTRA, TwitterService.OPERATION_GET);
-		intent.putExtra(TwitterService.REQUEST_TYPE_EXTRA, TwitterService.PROFILE_REQUEST);
+		intent.putExtra(TwitterService.METHOD_EXTRA, TwitterService.METHOD_GET);
+		intent.putExtra(TwitterService.RESOURCE_TYPE_EXTRA, TwitterService.PROFILE_REQUEST);
 		intent.putExtra(TwitterService.SERVICE_CALLBACK, serviceCallback);
 		intent.putExtra(REQUEST_ID, requestId);
 

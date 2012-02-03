@@ -10,11 +10,11 @@ public class TwitterService extends IntentService {
 	public static final int TYPE_PROFILE = 1;
 	
 	
-	public static final String OPERATION_EXTRA = "com.jeremyhaberman.restfulandroid.service.OPERATION_EXTRA";
+	public static final String METHOD_EXTRA = "com.jeremyhaberman.restfulandroid.service.METHOD_EXTRA";
 
-	public static final String OPERATION_GET = "GET";
+	public static final String METHOD_GET = "GET";
 
-	public static final String REQUEST_TYPE_EXTRA = "com.jeremyhaberman.restfulandroid.service.REQUEST_TYPE_EXTRA";
+	public static final String RESOURCE_TYPE_EXTRA = "com.jeremyhaberman.restfulandroid.service.RESOURCE_TYPE_EXTRA";
 
 	public static final String PROFILE_REQUEST = "profile";
 
@@ -39,8 +39,8 @@ public class TwitterService extends IntentService {
 		mOriginalRequestIntent = requestIntent;
 		
 		// Get request data from Intent
-		String operation = requestIntent.getStringExtra(TwitterService.OPERATION_EXTRA);
-		String type = requestIntent.getStringExtra(TwitterService.REQUEST_TYPE_EXTRA);
+		String operation = requestIntent.getStringExtra(TwitterService.METHOD_EXTRA);
+		String type = requestIntent.getStringExtra(TwitterService.RESOURCE_TYPE_EXTRA);
 		mCallback = requestIntent.getParcelableExtra(TwitterService.SERVICE_CALLBACK);
 		
 		if (!type.equals(PROFILE_REQUEST)) {
@@ -60,7 +60,7 @@ public class TwitterService extends IntentService {
 				}
 			};
 			
-			if (operation.equals(OPERATION_GET)) {
+			if (operation.equals(METHOD_GET)) {
 				processor.getProfile(callback);
 			}
 			
