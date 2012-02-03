@@ -5,6 +5,7 @@ import android.net.Uri;
 public class Constants {
 
     public static final String TABLE_NAME = "profiles";
+    public static final String TIMELINE_TABLE_NAME = "timeline";
     public static final String AUTHORITY = "com.jeremyhaberman.restfulandroid.profiles";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE_NAME);
 

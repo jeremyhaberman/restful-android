@@ -9,6 +9,8 @@ public class RestMethodFactory {
 
 	private static RestMethodFactory instance;
 	private static Object lock = new Object();
+	
+	private RestMethodFactory(){}
 
 	public static RestMethodFactory getInstance(){
 		synchronized (lock) {

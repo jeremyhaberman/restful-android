@@ -3,6 +3,8 @@ package com.jeremyhaberman.restfulandroid.rest;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import com.jeremyhaberman.restfulandroid.rest.resource.TwitterTimeline;
 
 public class GetTimelineRestMethod extends AbstractRestMethod<TwitterTimeline>{
@@ -22,10 +24,11 @@ public class GetTimelineRestMethod extends AbstractRestMethod<TwitterTimeline>{
 	}
 
 	@Override
-	protected TwitterTimeline parseResponse(Response response) {
-		// extract JSONObject
-		// create new Timeline
-		return null;
+	protected TwitterTimeline parseResponseBody(String responseBody) throws Exception {
+		
+		JSONObject json = new JSONObject(responseBody);
+		return new TwitterTimeline(json);
+		
 	}
 
 }
