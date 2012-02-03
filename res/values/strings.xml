@@ -4,5 +4,6 @@
     <string name="app_name">RESTful Android</string>
     <string name="app_log_tag">RESTfulAndroid</string>
     <string name="button_login_label">Login to Twitter</string>
+    <string name="error_occurred">An error has occurred.</string>
 
 </resources>

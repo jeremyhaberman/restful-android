@@ -1,4 +1,4 @@
-package com.jeremyhaberman.restfulandroid.activity;
+package com.jeremyhaberman.restfulandroid.activity.base;
 
 import com.jeremyhaberman.restfulandroid.R;
 
