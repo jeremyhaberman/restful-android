@@ -45,31 +45,47 @@ public class TwitterService extends IntentService {
 		String type = requestIntent.getStringExtra(TwitterService.RESOURCE_TYPE_EXTRA);
 		mCallback = requestIntent.getParcelableExtra(TwitterService.SERVICE_CALLBACK);
 		
-		if (!type.equals(PROFILE_REQUEST)) {
+		if (!type.equals(PROFILE_REQUEST) || !type.equals(TIMELINE_REQUEST)) {
 			mCallback.send(REQUEST_INVALID, getOriginalIntentBundle());
 		} else {
 		
-			// Find processor
-			ProfileProcessor processor = new ProfileProcessor(getApplicationContext());
-			
-			ProfileProcessorCallback callback = new ProfileProcessorCallback() {
-				
-				@Override
-				public void send(int resultCode) {
-					if (mCallback != null) {
-						mCallback.send(resultCode, getOriginalIntentBundle());
-					}
-				}
-			};
-			
-			if (operation.equals(METHOD_GET)) {
-				processor.getProfile(callback);
+			if (type.equals(PROFILE_REQUEST) && operation.equals(METHOD_GET)) {
+				ProfileProcessor processor = new ProfileProcessor(getApplicationContext());
+				processor.getProfile(makeProfileProcessorCallback());
+			} else if (type.equals(TIMELINE_REQUEST)) {
+				TimelineProcessor processor = new TimelineProcessor(getApplicationContext());
+				processor.getTimeline(makeTimelineProcessorCallback());
 			}
-			
 		}
-		
 	}
 
+	private ProfileProcessorCallback makeProfileProcessorCallback() {
+		ProfileProcessorCallback callback = new ProfileProcessorCallback() {
+			
+			@Override
+			public void send(int resultCode) {
+				if (mCallback != null) {
+					mCallback.send(resultCode, getOriginalIntentBundle());
+				}
+			}
+		};
+		return callback;
+	}
+
+	private TimelineProcessorCallback makeTimelineProcessorCallback() {
+		TimelineProcessorCallback callback = new TimelineProcessorCallback() {
+			
+			@Override
+			public void send(int resultCode) {
+				if (mCallback != null) {
+					mCallback.send(resultCode, getOriginalIntentBundle());
+				}
+			}
+		};
+		return callback;
+	}
+
+	
 	protected Bundle getOriginalIntentBundle() {
 		Bundle originalRequest = new Bundle();
 		originalRequest.putParcelable(ORIGINAL_INTENT_EXTRA, mOriginalRequestIntent);
