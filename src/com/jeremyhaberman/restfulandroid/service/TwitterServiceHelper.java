@@ -61,7 +61,7 @@ public class TwitterServiceHelper {
 
 		Intent intent = new Intent(this.ctx, TwitterService.class);
 		intent.putExtra(TwitterService.METHOD_EXTRA, TwitterService.METHOD_GET);
-		intent.putExtra(TwitterService.RESOURCE_TYPE_EXTRA, TwitterService.TIMELINE_REQUEST);
+		intent.putExtra(TwitterService.RESOURCE_TYPE_EXTRA, TwitterService.RESOURCE_TYPE_TIMELINE);
 		intent.putExtra(TwitterService.SERVICE_CALLBACK, serviceCallback);
 		intent.putExtra(REQUEST_ID, requestId);
 
@@ -90,7 +90,7 @@ public class TwitterServiceHelper {
 
 		Intent intent = new Intent(this.ctx, TwitterService.class);
 		intent.putExtra(TwitterService.METHOD_EXTRA, TwitterService.METHOD_GET);
-		intent.putExtra(TwitterService.RESOURCE_TYPE_EXTRA, TwitterService.PROFILE_REQUEST);
+		intent.putExtra(TwitterService.RESOURCE_TYPE_EXTRA, TwitterService.RESOURCE_TYPE_PROFILE);
 		intent.putExtra(TwitterService.SERVICE_CALLBACK, serviceCallback);
 		intent.putExtra(REQUEST_ID, requestId);
 
