@@ -1,8 +1,6 @@
 package com.jeremyhaberman.restfulandroid.security;
 
-import java.net.HttpURLConnection;
-
-import org.scribe.model.OAuthRequest;
+import com.jeremyhaberman.restfulandroid.rest.Request;
 
 /**
  * Interface for an OAuth request signer
@@ -10,20 +8,12 @@ import org.scribe.model.OAuthRequest;
  * @author jeremy
  * 
  */
-interface RequestSigner {
-
-	/**
-	 * Signs an OAuth request
-	 * 
-	 * @param request
-	 *            the request to sign
-	 */
-	public void signRequest(OAuthRequest request);
+public interface RequestSigner {
 	
 	/**
-	 * Adds the required OAuth information to an HttpUrlConnection
+	 * Adds the required OAuth information to a Request
 	 * @param conn
 	 */
-	public void signConnection(HttpURLConnection conn);
+	public void authorize(Request request);
 
 }

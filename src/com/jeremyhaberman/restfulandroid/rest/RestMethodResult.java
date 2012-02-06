@@ -1,5 +1,7 @@
 package com.jeremyhaberman.restfulandroid.rest;
 
+import com.jeremyhaberman.restfulandroid.rest.resource.Resource;
+
 public class RestMethodResult<T extends Resource> {
 	
 	private int statusCode = 0;

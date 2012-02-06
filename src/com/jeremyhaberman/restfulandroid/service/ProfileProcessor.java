@@ -1,25 +1,21 @@
 package com.jeremyhaberman.restfulandroid.service;
 
-import java.io.IOException;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.jeremyhaberman.restfulandroid.provider.Constants;
-import com.jeremyhaberman.restfulandroid.util.Logger;
+import com.jeremyhaberman.restfulandroid.provider.ProfileConstants;
+import com.jeremyhaberman.restfulandroid.rest.RestMethod;
+import com.jeremyhaberman.restfulandroid.rest.RestMethodFactory;
+import com.jeremyhaberman.restfulandroid.rest.RestMethodFactory.Method;
+import com.jeremyhaberman.restfulandroid.rest.RestMethodResult;
+import com.jeremyhaberman.restfulandroid.rest.resource.Profile;
 
 class ProfileProcessor {
 
 	protected static final String TAG = ProfileProcessor.class.getSimpleName();
-
-	private ProfileProcessorCallback mCallback;
 
 	private Context mContext;
 
@@ -38,91 +34,47 @@ class ProfileProcessor {
 		// Create a RESTMethod class that knows how to assemble the URL,
 		// and performs the HTTP operation.
 
-		try {
-			RESTRequest request = new RESTRequest(RESTRequest.METHOD_GET_PROFILE);
-			ResponseHandler handler = new ProfileResponseHandler(callback);
-			request.execute(handler);
-		} catch (InvalidRequestMethodException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		@SuppressWarnings("unchecked")
+		RestMethod<Profile> getProfileMethod = RestMethodFactory.getInstance().getRestMethod(
+				ProfileConstants.CONTENT_URI, Method.GET, null, null);
+		RestMethodResult<Profile> result = getProfileMethod.execute();
+
+		/*
+		 * (8) Insert-Update the ContentProvider status, and insert the result
+		 * on success Parsing the JSON response (on success) and inserting into
+		 * the content provider
+		 */
+
+		updateContentProvider(result);
+
+		// (9) Operation complete callback to Service
+
+		callback.send(result.getStatusCode());
 
 	}
 
-	private class ProfileResponseHandler implements ResponseHandler {
+	private void updateContentProvider(RestMethodResult<Profile> result) {
 
-		ProfileProcessorCallback mCallback;
+		String name = result.getResource().getName();
 
-		public ProfileResponseHandler(ProfileProcessorCallback callback) {
-			mCallback = callback;
-		}
+		if (name != null) {
 
-		@Override
-		public void handleResponse(RESTResponse response, Uri uri)
-				throws IOException {
+			ContentValues values = new ContentValues();
+			values.put(ProfileConstants.NAME, name);
 
-			// (7) REST method complete callback
-			// At this stage of development, the Processor doesn't retry, just
-			// records outcome.
-
-			// (8) Insert-Update the ContentProvider status, and insert the
-			// result
-			// on success
-			// Parsing the JSON response (on success) and inserting into the
-			// content
-			// provider
-
-			Logger.debug(TAG, "Received response for Uri " + uri.toString()
-					+ ":");
-			Logger.debug(TAG, "Response code: " + response.getResponseCode());
-			Logger.debug(TAG, "Response body: " + response.getBody());
-
-			String name = getName(response.getBody());
-
-			if (name != null) {
-
-				ContentValues values = new ContentValues();
-				values.put(Constants.NAME, name);
-
-				Cursor cursor = mContext.getContentResolver().query(
-						Constants.CONTENT_URI, null, null, null, null);
-				if (cursor.moveToFirst()) {
-					int id = cursor.getInt(cursor
-							.getColumnIndexOrThrow(BaseColumns._ID));
-					mContext.getContentResolver().update(
-							ContentUris.withAppendedId(Constants.CONTENT_URI,
-									id), values, null, null);
-				} else {
-					mContext.getContentResolver().insert(Constants.CONTENT_URI,
-							values);
-				}
-				cursor.close();
+			Cursor cursor = mContext.getContentResolver().query(ProfileConstants.CONTENT_URI, null,
+					null, null, null);
+			if (cursor.moveToFirst()) {
+				int id = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID));
+				mContext.getContentResolver().update(
+						ContentUris.withAppendedId(ProfileConstants.CONTENT_URI, id), values, null,
+						null);
+			} else {
+				mContext.getContentResolver().insert(ProfileConstants.CONTENT_URI, values);
 			}
-
-			// (9) Operation complete callback to Service
-
-			mCallback.send(response.getResponseCode());
+			cursor.close();
 		}
 
-		private String getName(String json) {
-
-			String name = null;
-
-			try {
-				JSONObject obj = new JSONObject(json);
-				name = obj.getString("name");
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-
-			return name;
-		}
-
-	};
-
-	protected ProfileProcessorCallback getCallback() {
-		return mCallback;
 	}
 
 }

@@ -1,14 +1,17 @@
 package com.jeremyhaberman.restfulandroid.security;
 
-import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.apache.http.client.methods.HttpUriRequest;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TwitterApi;
-import org.scribe.model.OAuthRequest;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
+import org.scribe.utils.MapUtils;
+import org.scribe.utils.URLUtils;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,6 +28,8 @@ import com.jeremyhaberman.restfulandroid.rest.Request;
  * 
  */
 public class AuthorizationManager implements RequestSigner {
+
+	private static final String AMPERSAND_SEPARATED_STRING = "%s&%s&%s";
 
 	// Singleton instance of the OAuthManager
 	private static AuthorizationManager mInstance;
@@ -48,6 +53,8 @@ public class AuthorizationManager implements RequestSigner {
 	private Token mRequestToken;
 	private Token mAccessToken;
 
+	private TwitterApi mTwitterApi;
+
 	/**
 	 * Returns the singleton instance of the OAuthManager
 	 * 
@@ -66,12 +73,12 @@ public class AuthorizationManager implements RequestSigner {
 	 */
 	private AuthorizationManager() {
 
-		prefs = PreferenceManager.getDefaultSharedPreferences(RestfulAndroid
-				.getAppContext());
+		prefs = PreferenceManager.getDefaultSharedPreferences(RestfulAndroid.getAppContext());
 
-		mOAuthService = new ServiceBuilder().provider(TwitterApi.class)
-				.apiKey(TWITTER_API_KEY).apiSecret(TWITTER_API_SECRET)
-				.callback(TWITTER_CALLBACK_URL).build();
+		mOAuthService = new ServiceBuilder().provider(TwitterApi.class).apiKey(TWITTER_API_KEY)
+				.apiSecret(TWITTER_API_SECRET).callback(TWITTER_CALLBACK_URL).build();
+
+		mTwitterApi = new TwitterApi();
 
 	}
 
@@ -118,8 +125,7 @@ public class AuthorizationManager implements RequestSigner {
 			editor.remove(PREF_NAME_TWITTER_REQUEST_TOKEN_SECRET);
 		} else {
 			editor.putString(PREF_NAME_TWITTER_REQUEST_TOKEN, token.getToken());
-			editor.putString(PREF_NAME_TWITTER_REQUEST_TOKEN_SECRET,
-					token.getSecret());
+			editor.putString(PREF_NAME_TWITTER_REQUEST_TOKEN_SECRET, token.getSecret());
 		}
 
 		return editor.commit();
@@ -142,8 +148,7 @@ public class AuthorizationManager implements RequestSigner {
 			editor.remove(PREF_NAME_TWITTER_ACCESS_TOKEN_SECRET);
 		} else {
 			editor.putString(PREF_NAME_TWITTER_ACCESS_TOKEN, token.getToken());
-			editor.putString(PREF_NAME_TWITTER_ACCESS_TOKEN_SECRET,
-					token.getSecret());
+			editor.putString(PREF_NAME_TWITTER_ACCESS_TOKEN_SECRET, token.getSecret());
 		}
 
 		return editor.commit();
@@ -161,8 +166,7 @@ public class AuthorizationManager implements RequestSigner {
 	 *            the request token that was used for authorization
 	 * @return access token (or null if it failed)
 	 */
-	private Token getAccessToken(Intent intent, OAuthService oAuthService,
-			Token requestToken) {
+	private Token getAccessToken(Intent intent, OAuthService oAuthService, Token requestToken) {
 
 		if (oAuthService == null || requestToken == null) {
 			return null;
@@ -189,12 +193,11 @@ public class AuthorizationManager implements RequestSigner {
 	 * 
 	 * @return Twitter request token
 	 */
-    Token getRequestToken() {
+	Token getRequestToken() {
 		if (mRequestToken == null) {
-			String requestToken = prefs.getString(
-					PREF_NAME_TWITTER_REQUEST_TOKEN, null);
-			String requestTokenSecret = prefs.getString(
-					PREF_NAME_TWITTER_REQUEST_TOKEN_SECRET, null);
+			String requestToken = prefs.getString(PREF_NAME_TWITTER_REQUEST_TOKEN, null);
+			String requestTokenSecret = prefs.getString(PREF_NAME_TWITTER_REQUEST_TOKEN_SECRET,
+					null);
 			if (requestToken != null && requestTokenSecret != null) {
 				mRequestToken = new Token(requestToken, requestTokenSecret);
 			}
@@ -207,12 +210,10 @@ public class AuthorizationManager implements RequestSigner {
 	 * 
 	 * @return saved access token (or null if it does not exist)
 	 */
-    Token getAccessToken() {
+	Token getAccessToken() {
 		if (mAccessToken == null) {
-			String accessToken = prefs.getString(
-					PREF_NAME_TWITTER_ACCESS_TOKEN, null);
-			String accessTokenSecret = prefs.getString(
-					PREF_NAME_TWITTER_ACCESS_TOKEN_SECRET, null);
+			String accessToken = prefs.getString(PREF_NAME_TWITTER_ACCESS_TOKEN, null);
+			String accessTokenSecret = prefs.getString(PREF_NAME_TWITTER_ACCESS_TOKEN_SECRET, null);
 
 			if (accessToken != null && accessTokenSecret != null) {
 				mAccessToken = new Token(accessToken, accessTokenSecret);
@@ -232,27 +233,6 @@ public class AuthorizationManager implements RequestSigner {
 	}
 
 	/**
-	 * Signs a request
-	 * 
-	 * @param request
-	 *            the OAuthRequest to sign
-	 */
-	public void signRequest(OAuthRequest request) {
-		mOAuthService.signRequest(getAccessToken(), request);
-	}
-	
-	/**
-	 * Signs an HttpUrlConnection
-	 * 
-	 * @param conn
-	 *            the HttpURLConnectionto sign
-	 */
-	@Override
-	public void signConnection(HttpURLConnection conn) {
-		// TODO Jeremy implementing this
-	}
-
-	/**
 	 * Log out of the application
 	 */
 	public void logout() {
@@ -262,8 +242,95 @@ public class AuthorizationManager implements RequestSigner {
 		saveAccessToken(mAccessToken);
 	}
 
-	public void signRequest(Request request) {
+	/**
+	 * Authorizes a Twitter request.
+	 * 
+	 * See <a href="https://dev.twitter.com/docs/auth/authorizing-request">
+	 * Authorizing a Request</a> for authorization requirements and methods.
+	 */
+	@Override
+	public void authorize(Request request) {
+
+		Map<String, String> oauthParams = new HashMap<String, String>();
+
+		oauthParams.put("oauth_consumer_key", TWITTER_API_KEY);
+		oauthParams.put("oauth_nonce", mTwitterApi.getTimestampService().getNonce());
+		oauthParams.put("oauth_signature_method", mTwitterApi.getSignatureService()
+				.getSignatureMethod());
+		oauthParams.put("oauth_timestamp", mTwitterApi.getTimestampService()
+				.getTimestampInSeconds());
+		oauthParams.put("oauth_token", getAccessToken().getToken());
+		oauthParams.put("oauth_version", "1.0");
+
+		String verb = URLUtils.percentEncode(request.getMethod().name());
+		String url = URLUtils
+				.percentEncode(getSanitizedUrl(request.getRequestUri().toASCIIString()));
+		String params = getSortedAndEncodedParams(request, oauthParams);
+		String baseString = String.format(AMPERSAND_SEPARATED_STRING, verb, url, params);
+
+		String signature = mTwitterApi.getSignatureService().getSignature(baseString,
+				TWITTER_API_SECRET, getAccessToken().getSecret());
+
+		oauthParams.put("oauth_signature", signature);
+
+		List<String> oauthHeaderValue = getAuthorizationHeaderValue(oauthParams);
+
+		request.addHeader("Authorization", oauthHeaderValue);
+
+	}
+
+	private List<String> getAuthorizationHeaderValue(Map<String, String> params) {
+
+		String authValueString = "OAuth ";
+
+		int count = params.size();
+		int position = 1;
+
+		for (String key : params.keySet()) {
+			authValueString += URLUtils.percentEncode(key);
+			authValueString += '=';
+			authValueString += '"';
+			authValueString += URLUtils.percentEncode(params.get(key));
+			authValueString += '"';
+			if (position != count) {
+				authValueString += ", ";
+			}
+			position++;
+		}
 		
+		List<String> authValue = new ArrayList<String>();
+		authValue.add(authValueString);
+
+		return authValue;
+	}
+
+	private String getSanitizedUrl(String url) {
+		return url.replaceAll("\\?.*", "").replace("\\:\\d{4}", "");
+	}
+
+	private String getSortedAndEncodedParams(Request request, Map<String, String> oauthParams) {
+		Map<String, String> params = new HashMap<String, String>();
+		MapUtils.decodeAndAppendEntries(getQueryStringParams(request), params);
+		MapUtils.decodeAndAppendEntries(getBodyParams(request), params);
+		MapUtils.decodeAndAppendEntries(oauthParams, params);
+		params = MapUtils.sort(params);
+		return URLUtils.percentEncode(MapUtils.concatSortedPercentEncodedParams(params));
+	}
+
+	private Map<String, String> getBodyParams(Request request) {
+
+		if (request.getBody() != null) {
+			return MapUtils.queryStringToMap(new String(request.getBody()));
+		} else {
+			return new HashMap<String, String>();
+		}
+	}
+
+	private Map<String, String> getQueryStringParams(Request request) {
+		Map<String, String> params = new HashMap<String, String>();
+		String queryString = request.getRequestUri().getQuery();
+		params.putAll(MapUtils.queryStringToMap(queryString));
+		return params;
 	}
 
 }
