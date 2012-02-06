@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import com.jeremyhaberman.restfulandroid.RestfulAndroid;
+import com.jeremyhaberman.restfulandroid.rest.Request;
 
 /**
  * OAuthManager handles OAuth authentication with the Twitter API.
@@ -259,6 +260,10 @@ public class AuthorizationManager implements RequestSigner {
 		mAccessToken = null;
 		saveRequestToken(mRequestToken);
 		saveAccessToken(mAccessToken);
+	}
+
+	public void signRequest(Request request) {
+		
 	}
 
 }
