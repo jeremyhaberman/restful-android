@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.jeremyhaberman.restfulandroid.rest.resource.Resource;
+import com.jeremyhaberman.restfulandroid.security.AuthorizationManager;
+import com.jeremyhaberman.restfulandroid.security.RequestSigner;
 
 public abstract class AbstractRestMethod<T extends Resource> implements RestMethod<T> {
 
@@ -12,6 +14,10 @@ public abstract class AbstractRestMethod<T extends Resource> implements RestMeth
 	public RestMethodResult<T> execute() {
 
 		Request request = buildRequest();
+		if (requiresAuthorization()) {
+			RequestSigner signer = AuthorizationManager.getInstance();
+			signer.authorize(request);
+		}
 		Response response = doRequest(request);
 		return buildResult(response);
 	}
@@ -42,6 +48,8 @@ public abstract class AbstractRestMethod<T extends Resource> implements RestMeth
 	}
 
 	protected abstract Request buildRequest();
+	
+	protected abstract boolean requiresAuthorization();
 
 	protected abstract T parseResponseBody(String responseBody) throws Exception;
 

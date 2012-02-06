@@ -6,8 +6,6 @@ import org.json.JSONObject;
 
 import com.jeremyhaberman.restfulandroid.rest.RestMethodFactory.Method;
 import com.jeremyhaberman.restfulandroid.rest.resource.Profile;
-import com.jeremyhaberman.restfulandroid.security.AuthorizationManager;
-import com.jeremyhaberman.restfulandroid.security.RequestSigner;
 
 public class GetProfileRestMethod extends AbstractRestMethod<Profile>{
 	
@@ -16,12 +14,7 @@ public class GetProfileRestMethod extends AbstractRestMethod<Profile>{
 	@Override
 	protected Request buildRequest() {
 		
-		Request request = new Request(Method.GET, PROFILE_URI, null, null);
-		
-		RequestSigner signer = AuthorizationManager.getInstance();
-		signer.authorize(request);
-		
-		return request;
+		return new Request(Method.GET, PROFILE_URI, null, null);
 	}
 
 	@Override
@@ -30,6 +23,11 @@ public class GetProfileRestMethod extends AbstractRestMethod<Profile>{
 		JSONObject json = new JSONObject(responseBody);
 		return new Profile(json);
 		
+	}
+
+	@Override
+	protected boolean requiresAuthorization() {
+		return true;
 	}
 
 }
