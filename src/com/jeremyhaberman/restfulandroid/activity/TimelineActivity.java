@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.jeremyhaberman.restfulandroid.R;
 import com.jeremyhaberman.restfulandroid.activity.base.RESTfulListActivity;
-import com.jeremyhaberman.restfulandroid.provider.Constants;
+import com.jeremyhaberman.restfulandroid.provider.ProfileConstants;
 import com.jeremyhaberman.restfulandroid.security.AuthorizationManager;
 import com.jeremyhaberman.restfulandroid.service.TwitterServiceHelper;
 import com.jeremyhaberman.restfulandroid.util.Logger;
@@ -112,10 +112,10 @@ public class TimelineActivity extends RESTfulListActivity {
 
 		String name = null;
 
-		Cursor cursor = getContentResolver().query(Constants.CONTENT_URI, null, null, null, null);
+		Cursor cursor = getContentResolver().query(ProfileConstants.CONTENT_URI, null, null, null, null);
 
 		if (cursor.moveToFirst()) {
-			int index = cursor.getColumnIndexOrThrow(Constants.NAME);
+			int index = cursor.getColumnIndexOrThrow(ProfileConstants.NAME);
 			name = cursor.getString(index);
 		}
 

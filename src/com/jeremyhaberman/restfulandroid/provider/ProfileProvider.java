@@ -1,9 +1,9 @@
 package com.jeremyhaberman.restfulandroid.provider;
 
 import static android.provider.BaseColumns._ID;
-import static com.jeremyhaberman.restfulandroid.provider.Constants.AUTHORITY;
-import static com.jeremyhaberman.restfulandroid.provider.Constants.CONTENT_URI;
-import static com.jeremyhaberman.restfulandroid.provider.Constants.TABLE_NAME;
+import static com.jeremyhaberman.restfulandroid.provider.ProfileConstants.AUTHORITY;
+import static com.jeremyhaberman.restfulandroid.provider.ProfileConstants.CONTENT_URI;
+import static com.jeremyhaberman.restfulandroid.provider.ProfileConstants.TABLE_NAME;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;

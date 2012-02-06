@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import static android.provider.BaseColumns._ID;
-import static com.jeremyhaberman.restfulandroid.provider.Constants.NAME;
-import static com.jeremyhaberman.restfulandroid.provider.Constants.TABLE_NAME;
+import static com.jeremyhaberman.restfulandroid.provider.ProfileConstants.NAME;
+import static com.jeremyhaberman.restfulandroid.provider.ProfileConstants.TABLE_NAME;
 
 class ProfileData extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "profiles.db";

@@ -6,12 +6,13 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import com.jeremyhaberman.restfulandroid.rest.RestMethodFactory.Method;
 import com.jeremyhaberman.restfulandroid.rest.resource.TwitterTimeline;
 import com.jeremyhaberman.restfulandroid.security.AuthorizationManager;
 
 public class GetTimelineRestMethod extends AbstractRestMethod<TwitterTimeline>{
 	
-	private static final URI TIMELINE_URI = URI.create("https://api.twitter.com/posts/");
+	private static final URI TIMELINE_URI = URI.create("https://api.twitter.com/1/statuses/home_timeline.json");
 	
 	private Map<String, List<String>> headers;
 	
@@ -23,7 +24,7 @@ public class GetTimelineRestMethod extends AbstractRestMethod<TwitterTimeline>{
 	protected Request buildRequest() {
 		
 		AuthorizationManager authManager = AuthorizationManager.getInstance();
-		Request request = new Request(TIMELINE_URI, headers, null);
+		Request request = new Request(Method.GET, TIMELINE_URI, headers, null);
 		authManager.signRequest(request);
 		
 		return request;
