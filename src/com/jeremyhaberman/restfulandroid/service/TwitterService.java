@@ -18,6 +18,8 @@ public class TwitterService extends IntentService {
 
 	public static final String PROFILE_REQUEST = "profile";
 
+	public static final String TIMELINE_REQUEST = "timeline";
+
 	public static final String SERVICE_CALLBACK = "com.jeremyhaberman.restfulandroid.service.SERVICE_CALLBACK";
 	
 	public static final String ORIGINAL_INTENT_EXTRA = "com.jeremyhaberman.restfulandroid.service.ORIGINAL_INTENT_EXTRA";

@@ -23,6 +23,7 @@ public class TwitterServiceHelper {
 
 	private static final String REQUEST_ID = "REQUEST_ID";
 	private static final String profileHashkey = "PROFILE";
+	private static final String timelineHashkey = "TIMELINE";
 
 	private static Object lock = new Object();
 
@@ -46,13 +47,36 @@ public class TwitterServiceHelper {
 		return instance;		
 	}
 
+	public long getTimeline() {
+
+		long requestId = generateRequestID();
+		requests.put(timelineHashkey, requestId);
+
+		ResultReceiver serviceCallback = new ResultReceiver(null){
+			@Override
+			protected void onReceiveResult(int resultCode, Bundle resultData) {
+				handleGetTimelineResponse(resultCode, resultData);
+			}
+		};
+
+		Intent intent = new Intent(this.ctx, TwitterService.class);
+		intent.putExtra(TwitterService.METHOD_EXTRA, TwitterService.METHOD_GET);
+		intent.putExtra(TwitterService.RESOURCE_TYPE_EXTRA, TwitterService.TIMELINE_REQUEST);
+		intent.putExtra(TwitterService.SERVICE_CALLBACK, serviceCallback);
+		intent.putExtra(REQUEST_ID, requestId);
+
+		this.ctx.startService(intent);
+		
+		return requestId;		
+	}
+	
 	public long getProfile(){
 
 		if(requests.containsKey(profileHashkey)){
 			return requests.get(profileHashkey);
 		}
 
-		long requestId = UUID.randomUUID().getLeastSignificantBits();
+		long requestId = generateRequestID();
 		requests.put(profileHashkey, requestId);
 
 		ResultReceiver serviceCallback = new ResultReceiver(null){
@@ -72,6 +96,11 @@ public class TwitterServiceHelper {
 
 		this.ctx.startService(intent);
 
+		return requestId;
+	}
+
+	private long generateRequestID() {
+		long requestId = UUID.randomUUID().getLeastSignificantBits();
 		return requestId;
 	}
 
@@ -98,4 +127,20 @@ public class TwitterServiceHelper {
 		}
 	}
 
+	private void handleGetTimelineResponse(int resultCode, Bundle resultData){
+
+		Intent origIntent = (Intent)resultData.getParcelable(TwitterService.ORIGINAL_INTENT_EXTRA);
+
+		if(origIntent != null){
+			long requestId = origIntent.getLongExtra(REQUEST_ID, 0);
+
+			requests.remove(timelineHashkey);
+
+			Intent resultBroadcast = new Intent(ACTION_REQUEST_RESULT);
+			resultBroadcast.putExtra(EXTRA_REQUEST_ID, requestId);
+			resultBroadcast.putExtra(EXTRA_RESULT_CODE, resultCode);
+
+			ctx.sendBroadcast(resultBroadcast);
+		}
+	}	
 }
