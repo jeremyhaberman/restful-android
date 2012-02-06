@@ -25,7 +25,7 @@ public class GetTimelineRestMethod extends AbstractRestMethod<TwitterTimeline>{
 		
 		AuthorizationManager authManager = AuthorizationManager.getInstance();
 		Request request = new Request(Method.GET, TIMELINE_URI, headers, null);
-		authManager.signRequest(request);
+		authManager.authorize(request);
 		
 		return request;
 	}

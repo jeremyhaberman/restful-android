@@ -1,13 +1,12 @@
 package com.jeremyhaberman.restfulandroid.security;
 
-import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TwitterApi;
-import org.scribe.model.OAuthConstants;
-import org.scribe.model.OAuthRequest;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
@@ -234,27 +233,6 @@ public class AuthorizationManager implements RequestSigner {
 	}
 
 	/**
-	 * Signs a request
-	 * 
-	 * @param request
-	 *            the OAuthRequest to sign
-	 */
-	public void signRequest(OAuthRequest request) {
-		mOAuthService.signRequest(getAccessToken(), request);
-	}
-
-	/**
-	 * Signs an HttpUrlConnection
-	 * 
-	 * @param conn
-	 *            the HttpURLConnectionto sign
-	 */
-	@Override
-	public void signConnection(HttpURLConnection conn) {
-		// TODO Jeremy implementing this
-	}
-
-	/**
 	 * Log out of the application
 	 */
 	public void logout() {
@@ -264,19 +242,14 @@ public class AuthorizationManager implements RequestSigner {
 		saveAccessToken(mAccessToken);
 	}
 
-	public void signRequest(Request request) {
-
-		// These values need to be encoded into a single string which will be
-		// used later on. The process to build the string is very specific:
-
-		// 1. Percent encode every key and value that will be signed.
-		// 2. Sort the list of parameters alphabetically[1] by encoded key[2].
-		// 3. For each key/value pair:
-		// 4. Append the encoded key to the output string.
-		// 5. Append the '=' character to the output string.
-		// 6. Append the encoded value to the output string.
-		// 7. If there are more key/value pairs remaining, append a '&'
-		// character to the output string.
+	/**
+	 * Authorizes a Twitter request.
+	 * 
+	 * See <a href="https://dev.twitter.com/docs/auth/authorizing-request">
+	 * Authorizing a Request</a> for authorization requirements and methods.
+	 */
+	@Override
+	public void authorize(Request request) {
 
 		Map<String, String> oauthParams = new HashMap<String, String>();
 
@@ -289,45 +262,44 @@ public class AuthorizationManager implements RequestSigner {
 		oauthParams.put("oauth_token", getAccessToken().getToken());
 		oauthParams.put("oauth_version", "1.0");
 
-		// generating the signature
-
 		String verb = URLUtils.percentEncode(request.getMethod().name());
 		String url = URLUtils
 				.percentEncode(getSanitizedUrl(request.getRequestUri().toASCIIString()));
 		String params = getSortedAndEncodedParams(request, oauthParams);
 		String baseString = String.format(AMPERSAND_SEPARATED_STRING, verb, url, params);
 
-		// 3. oauth_signature tnnArxj06cWHq44gCs1OSKk/jLY=
-
 		String signature = mTwitterApi.getSignatureService().getSignature(baseString,
 				TWITTER_API_SECRET, getAccessToken().getSecret());
 
 		oauthParams.put("oauth_signature", signature);
 
-		String oauthHeaderValue = getAuthorizationHeaderValue(oauthParams);
+		List<String> oauthHeaderValue = getAuthorizationHeaderValue(oauthParams);
 
-		request.setAuthorizationHeader(oauthHeaderValue);
+		request.addHeader("Authorization", oauthHeaderValue);
 
 	}
 
-	private String getAuthorizationHeaderValue(Map<String, String> params) {
+	private List<String> getAuthorizationHeaderValue(Map<String, String> params) {
 
-		String authValue = "OAuth ";
+		String authValueString = "OAuth ";
 
 		int count = params.size();
 		int position = 1;
 
 		for (String key : params.keySet()) {
-			authValue += URLUtils.percentEncode(key);
-			authValue += '=';
-			authValue += '"';
-			authValue += URLUtils.percentEncode(params.get(key));
-			authValue += '"';
+			authValueString += URLUtils.percentEncode(key);
+			authValueString += '=';
+			authValueString += '"';
+			authValueString += URLUtils.percentEncode(params.get(key));
+			authValueString += '"';
 			if (position != count) {
-				authValue += ", ";
+				authValueString += ", ";
 			}
 			position++;
 		}
+		
+		List<String> authValue = new ArrayList<String>();
+		authValue.add(authValueString);
 
 		return authValue;
 	}

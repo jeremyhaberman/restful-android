@@ -40,13 +40,12 @@ public class Request {
 		return body;
 	}
 
-	public void setAuthorizationHeader(String value) {
-		List<String> authValue = new ArrayList<String>();
-		authValue.add(value);
+	public void addHeader(String key, List<String> value) {
+		
 		if (headers == null) {
 			headers = new HashMap<String, List<String>>();
 		}
-		headers.put("Authorization", authValue);
+		headers.put(key, value);
 	}
 
 	

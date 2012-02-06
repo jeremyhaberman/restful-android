@@ -12,7 +12,7 @@ public class GetTimelineRestMethodTest extends AndroidTestCase {
 		
 		GetTimelineRestMethod method = new GetTimelineRestMethod(null);
 		RestMethodResult<TwitterTimeline> timeline = method.execute();
-		
+		assertNotNull(timeline);
 	}
 
 }

@@ -11,8 +11,8 @@ public class GetProfileRestMethodTest extends AndroidTestCase {
 	public void testExecute() {
 		
 		GetProfileRestMethod method = new GetProfileRestMethod();
-		RestMethodResult<Profile> timeline = method.execute();
-		
+		RestMethodResult<Profile> profile = method.execute();
+		assertNotNull(profile);
 	}
 
 }
