@@ -55,24 +55,27 @@ class ProfileProcessor {
 
 	private void updateContentProvider(RestMethodResult<Profile> result) {
 
-		String name = result.getResource().getName();
+		if (result != null && result.getResource() != null) {
 
-		if (name != null) {
+			String name = result.getResource().getName();
 
-			ContentValues values = new ContentValues();
-			values.put(ProfileConstants.NAME, name);
+			if (name != null) {
 
-			Cursor cursor = mContext.getContentResolver().query(ProfileConstants.CONTENT_URI, null,
-					null, null, null);
-			if (cursor.moveToFirst()) {
-				int id = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID));
-				mContext.getContentResolver().update(
-						ContentUris.withAppendedId(ProfileConstants.CONTENT_URI, id), values, null,
-						null);
-			} else {
-				mContext.getContentResolver().insert(ProfileConstants.CONTENT_URI, values);
+				ContentValues values = new ContentValues();
+				values.put(ProfileConstants.NAME, name);
+
+				Cursor cursor = mContext.getContentResolver().query(ProfileConstants.CONTENT_URI,
+						null, null, null, null);
+				if (cursor.moveToFirst()) {
+					int id = cursor.getInt(cursor.getColumnIndexOrThrow(BaseColumns._ID));
+					mContext.getContentResolver().update(
+							ContentUris.withAppendedId(ProfileConstants.CONTENT_URI, id), values,
+							null, null);
+				} else {
+					mContext.getContentResolver().insert(ProfileConstants.CONTENT_URI, values);
+				}
+				cursor.close();
 			}
-			cursor.close();
 		}
 
 	}

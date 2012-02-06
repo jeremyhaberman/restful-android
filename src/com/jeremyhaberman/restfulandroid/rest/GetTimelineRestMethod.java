@@ -38,9 +38,4 @@ public class GetTimelineRestMethod extends AbstractRestMethod<TwitterTimeline>{
 		
 	}
 
-	@Override
-	protected boolean requiresAuthorization() {
-		return true;
-	}
-
 }

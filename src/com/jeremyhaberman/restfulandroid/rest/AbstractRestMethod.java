@@ -49,7 +49,9 @@ public abstract class AbstractRestMethod<T extends Resource> implements RestMeth
 
 	protected abstract Request buildRequest();
 	
-	protected abstract boolean requiresAuthorization();
+	protected boolean requiresAuthorization() {
+		return true;
+	}
 
 	protected abstract T parseResponseBody(String responseBody) throws Exception;
 

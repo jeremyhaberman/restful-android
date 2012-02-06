@@ -6,12 +6,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 
 public class RestClient {
 
 	public Response execute(Request request) {
 		HttpURLConnection conn = null;
 		Response response = null;
+		int status = -1;
 		try {
 
 			URL url = request.getRequestUri().toURL();
@@ -24,7 +27,6 @@ public class RestClient {
 				}
 			}
 
-			int status = -1;
 			switch (request.getMethod()) {
 			case GET:
 				conn.setDoOutput(false);
@@ -55,6 +57,11 @@ public class RestClient {
 			if (conn != null)
 				conn.disconnect();
 		}
+		
+		if (response == null) {
+			response = new Response(status, new HashMap<String, List<String>>(), new byte[] {});
+		}
+		
 		return response;
 	}
 
