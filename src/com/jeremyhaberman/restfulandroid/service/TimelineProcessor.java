@@ -1,18 +1,15 @@
 package com.jeremyhaberman.restfulandroid.service;
 
-import java.util.Iterator;
 import java.util.List;
 
-import com.jeremyhaberman.restfulandroid.provider.ProfileConstants;
+import android.content.Context;
+
 import com.jeremyhaberman.restfulandroid.rest.RestMethod;
 import com.jeremyhaberman.restfulandroid.rest.RestMethodFactory;
-import com.jeremyhaberman.restfulandroid.rest.RestMethodResult;
 import com.jeremyhaberman.restfulandroid.rest.RestMethodFactory.Method;
-import com.jeremyhaberman.restfulandroid.rest.resource.Profile;
+import com.jeremyhaberman.restfulandroid.rest.RestMethodResult;
 import com.jeremyhaberman.restfulandroid.rest.resource.Tweet;
 import com.jeremyhaberman.restfulandroid.rest.resource.TwitterTimeline;
-
-import android.content.Context;
 
 
 /**
@@ -58,7 +55,7 @@ public class TimelineProcessor {
 				// and performs the HTTP operation.
 
 				@SuppressWarnings("unchecked")
-				RestMethod<TwitterTimeline> getTimelineMethod = RestMethodFactory.getInstance().getRestMethod(
+				RestMethod<TwitterTimeline> getTimelineMethod = RestMethodFactory.getInstance(mContext).getRestMethod(
 						TwitterTimeline.CONTENT_URI, Method.GET, null, null);
 				RestMethodResult<TwitterTimeline> result = getTimelineMethod.execute();
 

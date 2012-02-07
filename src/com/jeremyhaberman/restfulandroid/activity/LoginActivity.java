@@ -28,7 +28,7 @@ public class LoginActivity extends RESTfulActivity {
 
 		super.onCreate(savedInstanceState);
 
-		mOAuthManager = AuthorizationManager.getInstance();
+		mOAuthManager = AuthorizationManager.getInstance(this);
 
 		mProgressIndicator = (ProgressBar) findViewById(R.id.progress_indicator);
 

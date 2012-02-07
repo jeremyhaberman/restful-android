@@ -163,7 +163,7 @@ public class TimelineActivity extends RESTfulListActivity {
 		super.onOptionsItemSelected(item);
 		switch (item.getItemId()) {
 		case R.id.logout:
-			AuthorizationManager.getInstance().logout();
+			AuthorizationManager.getInstance(this).logout();
 			Intent login = new Intent(this, LoginActivity.class);
 			startActivity(login);
 			finish();

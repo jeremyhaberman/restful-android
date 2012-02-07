@@ -35,7 +35,7 @@ class ProfileProcessor {
 		// and performs the HTTP operation.
 
 		@SuppressWarnings("unchecked")
-		RestMethod<Profile> getProfileMethod = RestMethodFactory.getInstance().getRestMethod(
+		RestMethod<Profile> getProfileMethod = RestMethodFactory.getInstance(mContext).getRestMethod(
 				ProfileConstants.CONTENT_URI, Method.GET, null, null);
 		RestMethodResult<Profile> result = getProfileMethod.execute();
 
