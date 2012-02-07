@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.jeremyhaberman.restfulandroid.rest.RestMethodFactory.Method;
@@ -23,17 +24,14 @@ public class GetTimelineRestMethod extends AbstractRestMethod<TwitterTimeline>{
 	@Override
 	protected Request buildRequest() {
 		
-		AuthorizationManager authManager = AuthorizationManager.getInstance();
 		Request request = new Request(Method.GET, TIMELINE_URI, headers, null);
-		authManager.authorize(request);
-		
 		return request;
 	}
 
 	@Override
 	protected TwitterTimeline parseResponseBody(String responseBody) throws Exception {
 		
-		JSONObject json = new JSONObject(responseBody);
+		JSONArray json = new JSONArray(responseBody);
 		return new TwitterTimeline(json);
 		
 	}
