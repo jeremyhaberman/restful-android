@@ -68,6 +68,8 @@ public class TimelineActivity extends RESTfulListActivity {
 				if (resultRequestId == requestId) {
 
 					Logger.debug(TAG, "Result is for our request ID");
+					
+					setRefreshing(false);
 
 					int resultCode = intent.getIntExtra(TwitterServiceHelper.EXTRA_RESULT_CODE, 0);
 
@@ -76,8 +78,6 @@ public class TimelineActivity extends RESTfulListActivity {
 					if (resultCode == 200) {
 
 						Logger.debug(TAG, "Updating UI with new data");
-
-						setRefreshing(false);
 
 						String name = getNameFromContentProvider();
 						showNameToast(name);
