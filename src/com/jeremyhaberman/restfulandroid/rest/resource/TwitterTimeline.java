@@ -20,7 +20,7 @@ import com.jeremyhaberman.restfulandroid.provider.ProfileConstants;
  */
 public class TwitterTimeline implements Resource {
 
-	private static final Uri CONTENT_URI = Uri.parse("content://" + ProfileConstants.AUTHORITY
+	public static final Uri CONTENT_URI = Uri.parse("content://" + ProfileConstants.AUTHORITY
 			+ "/" + ProfileConstants.TIMELINE_TABLE_NAME);
 
 	private JSONArray timelineData;

@@ -49,15 +49,6 @@ public class TwitterTimelineTest extends InstrumentationTestCase{
 		}
 	}
 	
-	public void testCreateNewFromJsonArray(){
-		try{
-			TwitterTimeline timeline = new TwitterTimeline(timelineData);
-			Assert.assertNotNull(timeline);
-		} catch (Exception ex){
-			Assert.fail("Failed to instantiate TwitterTimeline from json string");
-		}
-	}
-	
 	public void testGetTweetsFromTimeline(){
 		TwitterTimeline timeline = new TwitterTimeline(timelineData);
 		List<Tweet> tweets = timeline.getTweets();
